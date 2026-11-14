@@ -821,11 +821,64 @@ p {
 }
 
 .lightbox img {
+  display: block;
   width: auto;
   height: auto;
   max-width: 92vw;
   max-height: 92vh;
   object-fit: contain;
+}
+
+/* Previous/next arrows, fixed to the sides of the viewport (main.js adds
+   them and hides them when there is only one photo). */
+.lightbox__nav {
+  position: fixed;
+  top: 50%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-top: -24px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  color: var(--white);
+  cursor: pointer;
+  transition: background-color 0.2s linear;
+}
+
+.lightbox__nav[hidden] {
+  display: none;
+}
+
+.lightbox__nav:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.lightbox__nav:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 2px;
+}
+
+.lightbox__nav .icon {
+  width: 28px;
+  height: 28px;
+  fill: none;
+}
+
+.lightbox__nav--prev {
+  left: 12px;
+}
+
+.lightbox__nav--next {
+  right: 12px;
+}
+
+.lightbox__nav--next .icon {
+  transform: scaleX(-1);
 }
 
 /* Gallery page: masonry grid. main.js positions each item absolutely in the
@@ -874,11 +927,6 @@ p {
   display: block;
   width: 100%;
   height: auto;
-  transition: opacity 0.2s linear;
-}
-
-.gallery__open:hover img {
-  opacity: 0.85;
 }
 
 .gallery__sentinel {
@@ -954,8 +1002,11 @@ p {
   visibility: hidden;
 }
 
-/* The glitch layers show for 1s on hover, then hide until the next hover */
-.glitch:hover .glitch__layers {
+/* The glitch layers show for 1s on hover, then hide until the next hover.
+   With .glitch--play (gallery) the hover only starts it: main.js adds
+   .is-glitching, so the full 1s plays even if the pointer leaves early. */
+.glitch:not(.glitch--play):hover .glitch__layers,
+.glitch.is-glitching .glitch__layers {
   visibility: visible;
   animation: glitch-layers-off 1s step-end forwards;
 }
@@ -967,7 +1018,8 @@ p {
 
 /* Fast shake on hover, for 1s (8 x 0.125s). Uses the separate `translate`
    property so it doesn't override the random tilt set with `transform`. */
-.glitch:hover {
+.glitch:not(.glitch--play):hover,
+.glitch.is-glitching {
   animation: glitch-shake 0.125s linear 8;
 }
 
@@ -988,17 +1040,20 @@ p {
   background-size: 100% 100%;
 }
 
-.glitch:hover .glitch__layer:nth-child(1) {
+.glitch:not(.glitch--play):hover .glitch__layer:nth-child(1),
+.glitch.is-glitching .glitch__layer:nth-child(1) {
   transform: translateX(-5%);
   animation: glitch-anim-1 2s infinite linear alternate;
 }
 
-.glitch:hover .glitch__layer:nth-child(2) {
+.glitch:not(.glitch--play):hover .glitch__layer:nth-child(2),
+.glitch.is-glitching .glitch__layer:nth-child(2) {
   transform: translateX(3%) translateY(3%);
   animation: glitch-anim-2 2.3s -0.8s infinite linear alternate;
 }
 
-.glitch:hover .glitch__layer:nth-child(3) {
+.glitch:not(.glitch--play):hover .glitch__layer:nth-child(3),
+.glitch.is-glitching .glitch__layer:nth-child(3) {
   transform: translateX(5%);
   animation: glitch-anim-flash 1s infinite linear;
 }
@@ -1041,7 +1096,8 @@ p {
     display: none;
   }
 
-  .glitch:hover {
+  .glitch:not(.glitch--play):hover,
+  .glitch.is-glitching {
     animation: none;
   }
 

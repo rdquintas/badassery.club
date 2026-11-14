@@ -4,20 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Gallery - BADASSERY</title>
+  <title>Catch the Vibe - BADASSERY</title>
   <meta name="description" content="Photos of Badassery, the secret speakeasy and event venue at {{ site.address.street }}, Lisbon: The Cocktail Bar, The Laboratory, The Mini Banger and The Acoustic Chamber.">
   <link rel="canonical" href="https://badassery.club/gallery.html">
 
   <!-- Open Graph / Twitter -->
   <meta property="og:site_name" content="Badassery">
-  <meta property="og:title" content="Gallery - BADASSERY">
+  <meta property="og:title" content="Catch the Vibe - BADASSERY">
   <meta property="og:url" content="https://badassery.club/gallery.html">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://badassery.club/assets/img/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Gallery - BADASSERY">
+  <meta name="twitter:title" content="Catch the Vibe - BADASSERY">
   <meta name="twitter:image" content="https://badassery.club/assets/img/og-image.jpg">
 
   <!-- Icons -->
@@ -43,7 +43,7 @@
 
   {%- macro photo(p) -%}
   <figure class="gallery__item" data-ratio="{{ p.height / p.width }}">
-    <button type="button" class="gallery__open" aria-label="Open photo: {{ p.alt }}">
+    <button type="button" class="gallery__open glitch glitch--play" aria-label="Open photo: {{ p.alt }}">
       <picture>
         <source type="image/avif" srcset="assets/img/{{ p.image }}-600.avif 600w, assets/img/{{ p.image }}-1200.avif 1200w" sizes="(min-width: 1100px) 25vw, (min-width: 800px) 33vw, 50vw">
         <source type="image/webp" srcset="assets/img/{{ p.image }}-600.webp 600w, assets/img/{{ p.image }}-1200.webp 1200w" sizes="(min-width: 1100px) 25vw, (min-width: 800px) 33vw, 50vw">
@@ -58,7 +58,7 @@
          batches (data-batch) as the visitor scrolls, places each one in the
          shortest column and fades it in. Photos come from config/gallery.yaml. -->
     <section class="section section--first gallery" data-gallery data-batch="{{ gallery.batch }}">
-      <h1 class="page-title reveal">GALLERY</h1>
+      <h1 class="page-title reveal">CATCH THE VIBE</h1>
 
       <div class="gallery__grid" data-gallery-grid></div>
       <div class="gallery__sentinel" data-gallery-sentinel></div>

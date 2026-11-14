@@ -107,28 +107,42 @@
      3. Image glitch hover
      On the first hover, add three layers that show the already-loaded photo
      (currentSrc, so nothing extra is downloaded). CSS animates them.
+     Delegated from the document, so it also covers the gallery photos that
+     main.js adds later as the visitor scrolls.
      ------------------------------------------------------------------------ */
   function initImageGlitch() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    var figures = document.querySelectorAll('.glitch');
-    Array.prototype.forEach.call(figures, function (figure) {
-      figure.addEventListener('mouseenter', function build() {
-        var img = figure.querySelector('img');
-        if (!img || !img.currentSrc) return; // not loaded yet; retry next hover
+    // .glitch--play (gallery): hovering only starts the animation, and
+    // .is-glitching keeps it running to the end even if the pointer leaves.
+    // The class comes off when the shake (the last part, 1s) finishes.
+    document.addEventListener('animationend', function (e) {
+      if (e.animationName === 'glitch-shake' && e.target.classList.contains('is-glitching')) {
+        e.target.classList.remove('is-glitching');
+      }
+    });
 
-        var layers = document.createElement('div');
-        layers.className = 'glitch__layers';
-        layers.setAttribute('aria-hidden', 'true');
-        for (var i = 0; i < 3; i++) {
-          var layer = document.createElement('div');
-          layer.className = 'glitch__layer';
-          layer.style.backgroundImage = 'url("' + img.currentSrc + '")';
-          layers.appendChild(layer);
-        }
-        figure.appendChild(layers);
-        figure.removeEventListener('mouseenter', build);
-      });
+    document.addEventListener('mouseover', function (e) {
+      var figure = e.target.closest && e.target.closest('.glitch');
+      if (!figure) return;
+      // Only when the pointer comes in from outside, not between its children
+      var entering = !(e.relatedTarget && figure.contains(e.relatedTarget));
+      if (entering && figure.classList.contains('glitch--play')) figure.classList.add('is-glitching');
+      if (figure.querySelector('.glitch__layers')) return;
+
+      var img = figure.querySelector('img');
+      if (!img || !img.currentSrc) return; // not loaded yet; retry next hover
+
+      var layers = document.createElement('div');
+      layers.className = 'glitch__layers';
+      layers.setAttribute('aria-hidden', 'true');
+      for (var i = 0; i < 3; i++) {
+        var layer = document.createElement('div');
+        layer.className = 'glitch__layer';
+        layer.style.backgroundImage = 'url("' + img.currentSrc + '")';
+        layers.appendChild(layer);
+      }
+      figure.appendChild(layers);
     });
   }
 
@@ -152,19 +166,44 @@
   /* ------------------------------------------------------------------------
      5. Photo lightbox
      Clicking a photo (or Enter/Space when focused) shows it in the <dialog>.
-     Esc closes it natively; a click outside the photo closes it too.
+     Esc closes it natively; a click outside the photo closes it too. The
+     arrow buttons, the Left/Right keys and a horizontal swipe move to the
+     previous/next photo of the same set (wrapping around at the ends).
      ------------------------------------------------------------------------ */
   var LIGHTBOX_SIZES = '92vw';
+  var LIGHTBOX_SWIPE = 50; // px of horizontal movement that counts as a swipe
   var openLightbox = null; // set by initLightbox, also used by the gallery
+
+  var CHEVRON = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true">' +
+    '<path d="M15 4 7 12l8 8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>';
 
   function initLightbox() {
     var dialog = document.getElementById('lightbox');
     if (!dialog || typeof dialog.showModal !== 'function') return;
 
-    openLightbox = open;
+    var stage = document.createElement('div');
+    stage.className = 'lightbox__stage';
+    var prev = navButton('prev', 'Previous photo');
+    var next = navButton('next', 'Next photo');
+    dialog.appendChild(stage);
+    dialog.appendChild(prev);
+    dialog.appendChild(next);
 
-    function open(figure) {
-      var picture = figure.querySelector('picture');
+    var set = [];   // figures the lightbox can move through
+    var index = 0;
+
+    function navButton(dir, label) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'lightbox__nav lightbox__nav--' + dir;
+      b.setAttribute('aria-label', label);
+      b.innerHTML = CHEVRON;
+      return b;
+    }
+
+    function show(i) {
+      index = (i + set.length) % set.length;
+      var picture = set[index].querySelector('picture');
       if (!picture) return;
 
       // Copy the <picture> so the browser picks the 1200w file for the
@@ -176,35 +215,71 @@
         el.removeAttribute('fetchpriority');
       });
 
-      dialog.innerHTML = '';
-      dialog.appendChild(copy);
+      stage.innerHTML = '';
+      stage.appendChild(copy);
+    }
+
+    // `figures` is the ordered set to browse; defaults to just this photo.
+    function open(figure, figures) {
+      set = figures && figures.length ? figures : [figure];
+      var i = set.indexOf(figure);
+      show(i < 0 ? 0 : i);
+      prev.hidden = next.hidden = set.length < 2;
       dialog.showModal();
       document.body.classList.add('is-lightbox-open');
     }
 
+    openLightbox = open;
+
+    prev.addEventListener('click', function () { show(index - 1); });
+    next.addEventListener('click', function () { show(index + 1); });
+
+    dialog.addEventListener('keydown', function (e) {
+      if (set.length < 2) return;
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(index - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); show(index + 1); }
+    });
+
+    var touchX = null, touchY = null;
+    dialog.addEventListener('touchstart', function (e) {
+      if (e.touches.length !== 1) { touchX = null; return; }
+      touchX = e.touches[0].clientX;
+      touchY = e.touches[0].clientY;
+    }, { passive: true });
+    dialog.addEventListener('touchend', function (e) {
+      if (touchX === null || set.length < 2) return;
+      var dx = e.changedTouches[0].clientX - touchX;
+      var dy = e.changedTouches[0].clientY - touchY;
+      touchX = null;
+      if (Math.abs(dx) >= LIGHTBOX_SWIPE && Math.abs(dx) > Math.abs(dy)) {
+        show(dx < 0 ? index + 1 : index - 1);
+      }
+    }, { passive: true });
+
     dialog.addEventListener('click', function (e) {
-      if (e.target === dialog) dialog.close();
+      if (e.target === dialog || e.target === stage) dialog.close();
     });
 
     dialog.addEventListener('close', function () {
-      dialog.innerHTML = '';
+      stage.innerHTML = '';
+      set = [];
       document.body.classList.remove('is-lightbox-open');
     });
 
     // Only the photos open the lightbox; the header logo also uses .glitch
     // for the hover effect but stays a normal link.
-    var figures = document.querySelectorAll('.feature__media.glitch');
-    Array.prototype.forEach.call(figures, function (figure) {
+    var figures = Array.prototype.slice.call(document.querySelectorAll('.feature__media.glitch'));
+    figures.forEach(function (figure) {
       var img = figure.querySelector('img');
       figure.setAttribute('tabindex', '0');
       figure.setAttribute('role', 'button');
       figure.setAttribute('aria-label', 'Open photo' + (img && img.alt ? ': ' + img.alt : ''));
 
-      figure.addEventListener('click', function () { open(figure); });
+      figure.addEventListener('click', function () { open(figure, figures); });
       figure.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          open(figure);
+          open(figure, figures);
         }
       });
     });
@@ -217,7 +292,8 @@
      Each one goes into the shortest column; its height comes from the
      width/height ratio, so the layout does not wait for the images. Photos
      fade up as they enter the viewport, staggered when several arrive at
-     once. A click opens the photo in the lightbox.
+     once. The order is shuffled on every page load. A click opens the photo
+     in the lightbox, which browses the whole gallery in that same order.
      ------------------------------------------------------------------------ */
   var GALLERY_COLUMNS = [[1100, 4], [800, 3], [0, 2]]; // [min viewport width, columns]
   var GALLERY_STAGGER = 100;  // ms between photos that fade in together
@@ -232,6 +308,12 @@
     if (!grid || !sentinel || !tpl || !tpl.content) return;
 
     var pending = Array.prototype.slice.call(tpl.content.children);
+    // Fisher-Yates shuffle: a new random order on every load.
+    for (var s = pending.length - 1; s > 0; s--) {
+      var r = Math.floor(Math.random() * (s + 1));
+      var tmp = pending[s]; pending[s] = pending[r]; pending[r] = tmp;
+    }
+    var all = pending.slice(); // full shuffled order, for the lightbox
     var placed = [];
     var batch = parseInt(root.getAttribute('data-batch'), 10) || 12;
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -328,7 +410,7 @@
 
     grid.addEventListener('click', function (e) {
       var button = e.target.closest('.gallery__open');
-      if (button && openLightbox) openLightbox(button);
+      if (button && openLightbox) openLightbox(button.parentNode, all);
     });
   }
 

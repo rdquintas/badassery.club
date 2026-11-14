@@ -4,60 +4,136 @@
 # src/assets/img/ without the "-600/-1200.<ext>" suffix; each one needs the
 # AVIF + WebP + JPG files at 600w and 1200w. `width`/`height` are the size of
 # the 1200w file (only the ratio matters: the grid uses it for the layout).
+# The gallery photos live in src/assets/img/gallery/; the original files are
+# kept in its _originals/ folder, which the build does not publish. Photos
+# narrower than 1200px are not upscaled, so their "-1200" files keep the
+# original size.
 
 # How many photos are added each time the visitor scrolls to the bottom.
 batch: 12
 
 items:
-  - image: hero-cocktail
+  - image: gallery/guitarist-cap
     width: 1200
-    height: 1800
-    alt: Cocktail art at Badassery
-  - image: laboratory
+    height: 1600
+    alt: Guitarist in a cap on stage
+  - image: gallery/cocktail-candlelight
+    width: 1178
+    height: 2096
+    alt: Cocktail lit by a single candle
+  - image: gallery/crowd-hands-up
+    width: 720
+    height: 960
+    alt: Crowd with hands up under red light
+  - image: gallery/band-red-light
+    width: 720
+    height: 405
+    alt: Live band playing to a packed room under red light
+  - image: gallery/dancer-white-top
+    width: 640
+    height: 853
+    alt: Dancer with a drink on the dance floor
+  - image: gallery/singer-sunglasses
+    width: 1200
+    height: 1600
+    alt: Singer in sunglasses at the mic
+  - image: gallery/keys-on-stage
+    width: 640
+    height: 1136
+    alt: Musicians at the keyboards on stage
+  - image: gallery/dance-floor-1
+    width: 480
+    height: 640
+    alt: Crowd dancing
+  - image: gallery/drummer-neon
+    width: 480
+    height: 320
+    alt: Drummer under green and pink lights
+  - image: gallery/band-packed-room
+    width: 1200
+    height: 1600
+    alt: Band playing to a packed room
+  - image: gallery/friends-dance-floor
+    width: 480
+    height: 598
+    alt: Friends posing on the dance floor
+  - image: gallery/drummer-crowd
+    width: 640
+    height: 1136
+    alt: Drummer playing in front of the crowd
+  - image: gallery/dance-floor-2
+    width: 480
+    height: 640
+    alt: Crowd dancing
+  - image: gallery/jam-session
+    width: 720
+    height: 405
+    alt: Jam session in the round
+  - image: gallery/badass-jam-poster
+    width: 750
+    height: 422
+    alt: Badass Jam poster, curated by Pimenta Caseira
+  - image: gallery/guest-laughing
+    width: 480
+    height: 640
+    alt: Guest laughing on the dance floor
+  - image: gallery/guests-posing
+    width: 480
+    height: 598
+    alt: Guests posing in the crowd
+  - image: gallery/band-red-stage
+    width: 480
+    height: 320
+    alt: Band on stage in red light
+  - image: gallery/dance-floor-3
+    width: 640
+    height: 853
+    alt: Crowd dancing
+  - image: gallery/guitarist-cowboy-hat
+    width: 480
+    height: 320
+    alt: Guitarist in a cowboy hat under blue light
+  - image: gallery/dance-floor-4
+    width: 480
+    height: 640
+    alt: Crowd dancing
+  - image: gallery/singer-silhouette
+    width: 150
+    height: 150
+    alt: Singer on stage in the dark
+  - image: gallery/portrait-sunglasses
+    width: 150
+    height: 150
+    alt: Portrait of a guest in sunglasses
+  - image: gallery/percussionist
+    width: 150
+    height: 150
+    alt: Percussionist playing
+  - image: gallery/dj-decks
+    width: 150
+    height: 150
+    alt: DJ at the decks
+  - image: gallery/pimenta-caseira-neon
+    width: 150
+    height: 150
+    alt: Pimenta Caseira neon sign
+  - image: gallery/badassery-logo-light
+    width: 500
+    height: 500
+    alt: Badassery logo
+  - image: gallery/joly-bmore
+    width: 640
+    height: 1136
+    alt: JoLy Bmore singing at the mic
+  - image: gallery/philip-lassiter-poster
+    width: 640
+    height: 1136
+    alt: Philip Lassiter poster, Saturday 8 November, 10 PM to 3 AM
+  - image: gallery/band-keyboards-crowd
     width: 1200
     height: 2133
-    alt: The Laboratory, 1st floor
-  - image: cocktail-bar
-    width: 1200
-    height: 1789
-    alt: The Cocktail Bar, ground floor
-  - image: events/disfunktion
-    width: 1200
-    height: 675
-    alt: Disfunktion (All Night Long) X Badassery
-  - image: basement
-    width: 1200
-    height: 1790
-    alt: The Basement
-  - image: mini-banger
-    width: 1200
-    height: 2133
-    alt: The Mini Banger
-  - image: events/lzbna
-    width: 1200
-    height: 675
-    alt: Lzbna - Life Outside The Piano
-  - image: acoustic-chamber
-    width: 1200
-    height: 1800
-    alt: Artist in The Acoustic Chamber
-  - image: events/fauve-refuge
-    width: 1200
-    height: 675
-    alt: Fauve Refuge X Badassery
-  - image: events/poderosas
-    width: 1200
-    height: 675
-    alt: "Poderosas: Shugi X Chiara Mecozzi X Badassery"
-  - image: events/ay-wing-oca-collective
-    width: 1200
-    height: 675
-    alt: Ay Wing X Oca Collective @ Badassery
-  - image: events/mahfoud
-    width: 1200
-    height: 675
-    alt: Mâhfoud All Night Long X Badassery
-  - image: events/collab-street-vol-1
-    width: 1200
-    height: 675
-    alt: Collab Street Vol. 1 X Badassery
+    alt: Band playing to the crowd, red keyboards in the foreground
+  - image: gallery/vaulted-room-crowd
+    width: 1179
+    height: 2096
+    alt: Packed crowd under the vaulted ceiling and disco ball

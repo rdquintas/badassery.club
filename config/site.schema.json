@@ -4,7 +4,7 @@
   "description": "Site-wide settings used by the build (config/site.yaml).",
   "type": "object",
   "additionalProperties": false,
-  "required": ["email", "address", "booking_url", "google_maps_url", "hours"],
+  "required": ["email", "address", "booking_url", "google_maps_url", "instagram_url", "hours"],
   "properties": {
     "email": {
       "description": "Contact email shown in the footer.",
@@ -33,6 +33,11 @@
     },
     "google_maps_url": {
       "description": "Google Maps link for the venue address.",
+      "type": "string",
+      "format": "uri"
+    },
+    "instagram_url": {
+      "description": "Instagram profile link (header menu, footer and JSON-LD sameAs).",
       "type": "string",
       "format": "uri"
     },
