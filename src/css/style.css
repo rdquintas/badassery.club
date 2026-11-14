@@ -357,6 +357,7 @@ p {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;     /* centres links that wrap onto two lines */
 }
 
 .site-menu__link {
