@@ -77,6 +77,10 @@ This builds the site, serves `dist/` at http://localhost:3000 and watches `src/`
 
 To check the production output instead, run `npm run build` and serve `dist/` with any static server (`npx serve dist`, or `python -m http.server 8000 -d dist`).
 
+## Deploying
+
+Every push to `main` runs [.github/workflows/pages.yml](.github/workflows/pages.yml), which runs `npm ci` and `npm run build` and then publishes `dist/` to GitHub Pages. In the repository settings, under **Pages > Build and deployment**, **Source** must be set to **GitHub Actions**. If it is set to "Deploy from a branch", GitHub runs Jekyll over the raw repository instead, and that fails on the Nunjucks syntax in this README.
+
 ## Adding or replacing images
 
 Images go in `src/assets/img/`. Each content photo ships in three formats and two widths:
