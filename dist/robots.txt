@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://badassery.club/sitemap.xml
