@@ -1,0 +1,17 @@
+# Site-wide settings used by the build (available in templates as `site.*`).
+
+email: info@badassery.club
+
+address:
+  street: Rua do Sol ao Rato 71A
+  postal_code: 1250-041
+  city: Lisbon
+
+booking_url: https://bookings.zenchef.com/results?rid=372843&pid=instagram
+
+# Each entry is rendered as one paragraph in the footer.
+hours:
+  - days: Wednesday and Thursday
+    time: from 7 PM to 2 AM
+  - days: Friday and Saturday
+    time: from 7 PM to 3 AM

@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>BADASSERY - the most badass speakeasy in Lisbon</title>
-  <meta name="description" content="Hidden behind a knitting shop at Rua do Sol ao Rato 71A, Badassery is a 300sqm creative sanctuary across three floors. From mixology in The Cocktail Bar to experimental vibes in The Laboratory and underground beats in The Mini Banger, we are the bridge between Amoreiras and Campo de Ourique. Experience the best secret nightlife in Lisbon.">
+  <meta name="description" content="Hidden behind a knitting shop at {{ site.address.street }}, Badassery is a 300sqm creative sanctuary across three floors. From mixology in The Cocktail Bar to experimental vibes in The Laboratory and underground beats in The Mini Banger, we are the bridge between Amoreiras and Campo de Ourique. Experience the best secret nightlife in Lisbon.">
   <meta name="keywords" content="Speakeasy Lisbon, Bar Secreto Lisboa, Live Music Rato, Eventos Privados Lisboa, Corporate Events Amoreiras, Private Party Venue Lisbon, Cocktail Bar Campo de Ourique, Jazz Soul Lisbon">
   <link rel="canonical" href="https://badassery.club/">
 
   <!-- Open Graph / Twitter -->
   <meta property="og:site_name" content="Badassery">
   <meta property="og:title" content="BADASSERY - the most badass speakeasy in Lisbon">
-  <meta property="og:description" content="Hidden behind a knitting shop at Rua do Sol ao Rato 71A, Badassery is a 300sqm creative sanctuary across three floors. Experience the best secret nightlife in Lisbon.">
+  <meta property="og:description" content="Hidden behind a knitting shop at {{ site.address.street }}, Badassery is a 300sqm creative sanctuary across three floors. Experience the best secret nightlife in Lisbon.">
   <meta property="og:url" content="https://badassery.club">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://badassery.club/assets/img/og-image.jpg">
@@ -47,10 +47,10 @@
     "url": "https://badassery.club",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Rua do Sol ao Rato 71A",
-      "addressLocality": "Lisbon",
+      "streetAddress": {{ site.address.street | json }},
+      "addressLocality": {{ site.address.city | json }},
       "addressRegion": "Rato / Amoreiras / Campo de Ourique",
-      "postalCode": "1250-041",
+      "postalCode": {{ site.address.postal_code | json }},
       "addressCountry": "PT"
     },
     "geo": { "@type": "GeoCoordinates", "latitude": 38.723056, "longitude": -9.155833 },
@@ -101,11 +101,11 @@
           </picture>
         </a>
         <nav class="site-header__nav" aria-label="Main">
-          <a class="site-header__nav-link reveal" href="/">Rua do Sol ao Rato 71A</a>
+          <a class="site-header__nav-link reveal" href="/">{{ site.address.street }}</a>
         </nav>
       </div>
 
-      <a class="btn site-header__cta reveal" href="https://bookings.zenchef.com/results?rid=372843&amp;pid=instagram" target="_blank" rel="noopener">RESERVAR</a>
+      <a class="btn site-header__cta reveal" href="{{ site.booking_url }}" target="_blank" rel="noopener">RESERVAR</a>
 
       <button class="burger reveal" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open Menu">
         <span class="burger__line"></span>
@@ -116,13 +116,13 @@
     <!-- Mobile menu overlay -->
     <div class="mobile-menu" id="mobile-menu" hidden>
       <nav class="mobile-menu__nav" aria-label="Mobile">
-        <a class="mobile-menu__link" href="/">Rua do Sol ao Rato 71A</a>
+        <a class="mobile-menu__link" href="/">{{ site.address.street }}</a>
       </nav>
       <div class="mobile-menu__footer">
         <a class="mobile-menu__social" href="https://www.instagram.com/badassery____/" target="_blank" rel="noopener" aria-label="Instagram">
           <svg class="icon" aria-hidden="true"><use href="#icon-instagram"/></svg>
         </a>
-        <a class="btn btn--block" href="https://bookings.zenchef.com/results?rid=372843&amp;pid=instagram" target="_blank" rel="noopener">RESERVAR</a>
+        <a class="btn btn--block" href="{{ site.booking_url }}" target="_blank" rel="noopener">RESERVAR</a>
       </div>
     </div>
   </header>
@@ -294,16 +294,17 @@
     <div class="site-footer__inner">
       <div class="site-footer__col">
         <h4 class="reveal">LOCATION</h4>
-        <p class="reveal">Rua do Sol ao Rato 71A<br>LISBON, 1250-041</p>
+        <p class="reveal">{{ site.address.street }}<br>{{ site.address.city | upper }}, {{ site.address.postal_code }}</p>
       </div>
       <div class="site-footer__col">
         <h4 class="reveal">HOURS</h4>
-        <p class="reveal">Wednesday and Thursday<br>from 7 PM to 2 AM</p>
-        <p class="reveal">Friday and Saturday<br>from 7 PM to 3 AM</p>
+        {%- for h in site.hours %}
+        <p class="reveal">{{ h.days }}<br>{{ h.time }}</p>
+        {%- endfor %}
       </div>
       <div class="site-footer__col">
         <h4 class="reveal">CONTACT</h4>
-        <p class="reveal"><a href="mailto:info@badassery.club">info@badassery.club</a></p>
+        <p class="reveal"><a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
       </div>
     </div>
   </footer>
