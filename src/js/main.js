@@ -2,6 +2,9 @@
    BADASSERY — main.js
    1. Fade-in animations (replicates Squarespace "Global animations": fade)
    2. Mobile menu
+   3. Image glitch hover
+   4. Random photo tilt
+   5. Photo lightbox
    ========================================================================== */
 
 (function () {
@@ -105,6 +108,111 @@
     });
   }
 
+  /* ------------------------------------------------------------------------
+     3. Image glitch hover
+     On the first hover, add three layers that show the already-loaded photo
+     (currentSrc, so nothing extra is downloaded). CSS animates them.
+     ------------------------------------------------------------------------ */
+  function initImageGlitch() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var figures = document.querySelectorAll('.glitch');
+    Array.prototype.forEach.call(figures, function (figure) {
+      figure.addEventListener('mouseenter', function build() {
+        var img = figure.querySelector('img');
+        if (!img || !img.currentSrc) return; // not loaded yet; retry next hover
+
+        var layers = document.createElement('div');
+        layers.className = 'glitch__layers';
+        layers.setAttribute('aria-hidden', 'true');
+        for (var i = 0; i < 3; i++) {
+          var layer = document.createElement('div');
+          layer.className = 'glitch__layer';
+          layer.style.backgroundImage = 'url("' + img.currentSrc + '")';
+          layers.appendChild(layer);
+        }
+        figure.appendChild(layers);
+        figure.removeEventListener('mouseenter', build);
+      });
+    });
+  }
+
+  /* ------------------------------------------------------------------------
+     4. Random photo tilt
+     Each photo gets its own angle on every page load: 2-5 degrees,
+     randomly to the left or right.
+     ------------------------------------------------------------------------ */
+  var TILT_MIN = 2; // degrees
+  var TILT_MAX = 5;
+
+  function initTilt() {
+    var figures = document.querySelectorAll('.feature__media');
+    Array.prototype.forEach.call(figures, function (figure) {
+      var angle = TILT_MIN + Math.random() * (TILT_MAX - TILT_MIN);
+      if (Math.random() < 0.5) angle = -angle;
+      figure.style.setProperty('--tilt', angle.toFixed(2) + 'deg');
+    });
+  }
+
+  /* ------------------------------------------------------------------------
+     5. Photo lightbox
+     Clicking a photo (or Enter/Space when focused) shows it in the <dialog>.
+     Esc closes it natively; a click outside the photo closes it too.
+     ------------------------------------------------------------------------ */
+  var LIGHTBOX_SIZES = '92vw';
+
+  function initLightbox() {
+    var dialog = document.getElementById('lightbox');
+    if (!dialog || typeof dialog.showModal !== 'function') return;
+
+    function open(figure) {
+      var picture = figure.querySelector('picture');
+      if (!picture) return;
+
+      // Copy the <picture> so the browser picks the 1200w file for the
+      // larger size; drop lazy loading since it is visible straight away.
+      var copy = picture.cloneNode(true);
+      Array.prototype.forEach.call(copy.querySelectorAll('source, img'), function (el) {
+        if (el.hasAttribute('sizes')) el.setAttribute('sizes', LIGHTBOX_SIZES);
+        el.removeAttribute('loading');
+        el.removeAttribute('fetchpriority');
+      });
+
+      dialog.innerHTML = '';
+      dialog.appendChild(copy);
+      dialog.showModal();
+      document.body.classList.add('is-lightbox-open');
+    }
+
+    dialog.addEventListener('click', function (e) {
+      if (e.target === dialog) dialog.close();
+    });
+
+    dialog.addEventListener('close', function () {
+      dialog.innerHTML = '';
+      document.body.classList.remove('is-lightbox-open');
+    });
+
+    var figures = document.querySelectorAll('.glitch');
+    Array.prototype.forEach.call(figures, function (figure) {
+      var img = figure.querySelector('img');
+      figure.setAttribute('tabindex', '0');
+      figure.setAttribute('role', 'button');
+      figure.setAttribute('aria-label', 'Open photo' + (img && img.alt ? ': ' + img.alt : ''));
+
+      figure.addEventListener('click', function () { open(figure); });
+      figure.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          open(figure);
+        }
+      });
+    });
+  }
+
   initReveal();
   initMenu();
+  initImageGlitch();
+  initTilt();
+  initLightbox();
 })();

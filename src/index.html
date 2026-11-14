@@ -102,7 +102,7 @@
           </picture>
         </a>
         <nav class="site-header__nav" aria-label="Main">
-          <a class="site-header__nav-link reveal" href="{{ site.google_maps_url }}" target="_blank" rel="noopener">{{ site.address.street }}</a>
+          <a class="site-header__nav-link link-fill reveal" href="{{ site.google_maps_url }}" target="_blank" rel="noopener">{{ site.address.street }}</a>
         </nav>
       </div>
 
@@ -117,7 +117,7 @@
     <!-- Mobile menu overlay -->
     <div class="mobile-menu" id="mobile-menu" hidden>
       <nav class="mobile-menu__nav" aria-label="Mobile">
-        <a class="mobile-menu__link" href="{{ site.google_maps_url }}" target="_blank" rel="noopener">{{ site.address.street }}</a>
+        <a class="mobile-menu__link link-fill" href="{{ site.google_maps_url }}" target="_blank" rel="noopener">{{ site.address.street }}</a>
       </nav>
       <div class="mobile-menu__footer">
         <a class="mobile-menu__social" href="https://www.instagram.com/badassery____/" target="_blank" rel="noopener" aria-label="Instagram">
@@ -137,7 +137,7 @@
 
         <!-- Intro -->
         <article class="feature feature--media-right">
-          <figure class="feature__media reveal">
+          <figure class="feature__media glitch reveal">
             <picture>
               <source type="image/avif" srcset="assets/img/hero-cocktail-600.avif 600w, assets/img/hero-cocktail-1200.avif 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
               <source type="image/webp" srcset="assets/img/hero-cocktail-600.webp 600w, assets/img/hero-cocktail-1200.webp 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
@@ -161,7 +161,7 @@
 
         <!-- The Laboratory -->
         <article class="feature feature--media-left">
-          <figure class="feature__media reveal">
+          <figure class="feature__media glitch reveal">
             <picture>
               <source type="image/avif" srcset="assets/img/laboratory-600.avif 600w, assets/img/laboratory-1200.avif 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
               <source type="image/webp" srcset="assets/img/laboratory-600.webp 600w, assets/img/laboratory-1200.webp 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
@@ -190,7 +190,7 @@
 
         <!-- The Cocktail Bar -->
         <article class="feature feature--media-right">
-          <figure class="feature__media reveal">
+          <figure class="feature__media glitch reveal">
             <picture>
               <source type="image/avif" srcset="assets/img/cocktail-bar-600.avif 600w, assets/img/cocktail-bar-1200.avif 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
               <source type="image/webp" srcset="assets/img/cocktail-bar-600.webp 600w, assets/img/cocktail-bar-1200.webp 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
@@ -213,7 +213,7 @@
 
         <!-- The Basement -->
         <article class="feature feature--media-left">
-          <figure class="feature__media reveal">
+          <figure class="feature__media glitch reveal">
             <picture>
               <source type="image/avif" srcset="assets/img/basement-600.avif 600w, assets/img/basement-1200.avif 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
               <source type="image/webp" srcset="assets/img/basement-600.webp 600w, assets/img/basement-1200.webp 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
@@ -246,7 +246,7 @@
 
         <!-- The Mini Banger -->
         <article class="feature feature--media-right">
-          <figure class="feature__media reveal">
+          <figure class="feature__media glitch reveal">
             <picture>
               <source type="image/avif" srcset="assets/img/mini-banger-600.avif 600w, assets/img/mini-banger-1200.avif 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
               <source type="image/webp" srcset="assets/img/mini-banger-600.webp 600w, assets/img/mini-banger-1200.webp 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
@@ -268,7 +268,7 @@
 
         <!-- The Acoustic Chamber -->
         <article class="feature feature--media-left">
-          <figure class="feature__media reveal">
+          <figure class="feature__media glitch reveal">
             <picture>
               <source type="image/avif" srcset="assets/img/acoustic-chamber-600.avif 600w, assets/img/acoustic-chamber-1200.avif 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
               <source type="image/webp" srcset="assets/img/acoustic-chamber-600.webp 600w, assets/img/acoustic-chamber-1200.webp 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
@@ -295,7 +295,7 @@
     <div class="site-footer__inner">
       <div class="site-footer__col">
         <h4 class="reveal">LOCATION</h4>
-        <p class="reveal"><a href="{{ site.google_maps_url }}" target="_blank" rel="noopener">{{ site.address.street }}<br>{{ site.address.city | upper }}, {{ site.address.postal_code }}</a></p>
+        <p class="reveal"><a class="link-fill" href="{{ site.google_maps_url }}" target="_blank" rel="noopener">{{ site.address.street }}<br>{{ site.address.city | upper }}, {{ site.address.postal_code }}</a></p>
       </div>
       <div class="site-footer__col">
         <h4 class="reveal">HOURS</h4>
@@ -305,7 +305,7 @@
       </div>
       <div class="site-footer__col">
         <h4 class="reveal">CONTACT</h4>
-        <p class="reveal"><a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+        <p class="reveal"><a class="link-fill" href="mailto:{{ site.email }}">{{ site.email }}</a></p>
       </div>
     </div>
   </footer>
@@ -315,5 +315,7 @@
     <p>Melhor Bar Secreto em Lisboa, Musica ao vivo no Rato e Amoreiras. Eventos privados B2B e B2C.</p>
     <p>Best Secret Bar in Lisbon, Live Music near Amoreiras and Campo de Ourique. Private B2B Corporate Events.</p>
   </div>
+  <!-- Lightbox for the photos (filled and opened by main.js) -->
+  <dialog class="lightbox" id="lightbox" aria-label="Photo"></dialog>
 </body>
 </html>

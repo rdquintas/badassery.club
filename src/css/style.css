@@ -59,6 +59,7 @@
   --accent: hsl(0, 0%, 85.1%);        /* #d9d9d9 – RESERVAR button */
   --dark-accent: hsl(0, 0%, 47.45%);
   --light-accent: hsl(0, 0%, 96.08%);
+  --link-fill: var(--white);          /* hover fill on text links */
 
   /* Fonts */
   --font-heading: "Bebas Neue", "Arial Narrow", sans-serif;
@@ -128,7 +129,14 @@ body {
   overflow-wrap: break-word;
 }
 
-body.is-menu-open {
+/* The rotated photos' corners stick out slightly past the viewport on
+   narrow screens; clip them instead of allowing a horizontal scroll. */
+body {
+  overflow-x: clip;
+}
+
+body.is-menu-open,
+body.is-lightbox-open {
   overflow: hidden;
 }
 
@@ -298,11 +306,6 @@ p {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.35em;
-  transition: opacity 0.1s linear;
-}
-
-.site-header__nav-link:hover {
-  opacity: 0.8;
 }
 
 .site-header__cta {
@@ -458,6 +461,8 @@ p {
 
 .feature__media {
   grid-area: media;
+  box-shadow: 3px 5px 8px rgba(0, 0, 0, 0.5);
+  transform: rotate(var(--tilt, -3.5deg)); /* --tilt is randomised by main.js */
 }
 
 .feature__media img {
@@ -578,11 +583,32 @@ p {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
-  transition: opacity 0.1s linear;
 }
 
-.site-footer a:hover {
-  opacity: 0.8;
+/* Text links: a colour block sweeps in from the left on hover.
+   An inset box-shadow 100% of the link's width is not possible, so a
+   background gradient growing from 0 to 100% does the same sweep and
+   always fits the link exactly. */
+.link-fill {
+  display: inline-block;   /* one box, also for the two-line footer address */
+  padding: 0 0.25rem;
+  margin: 0 -0.25rem;
+  background: linear-gradient(var(--link-fill), var(--link-fill)) no-repeat left / 0% 100%;
+  transition: color 0.3s ease-in-out, background-size 0.3s ease-in-out;
+}
+
+/* Keep the fade-in transition on links that also use .reveal */
+.link-fill.reveal {
+  transition:
+    opacity var(--reveal-duration) var(--reveal-ease) var(--reveal-delay, 0s),
+    color 0.3s ease-in-out,
+    background-size 0.3s ease-in-out;
+}
+
+.link-fill:hover,
+.link-fill:focus-visible {
+  color: var(--black);
+  background-size: 100% 100%;
 }
 
 @media (max-width: 767px) {
@@ -594,6 +620,29 @@ p {
   .site-footer h4 {
     margin-bottom: 1rem;
   }
+}
+
+/* Lightbox: native <dialog>. Esc closes it natively; main.js closes it on a
+   click outside the photo (a click on the dialog box itself = the backdrop). */
+.lightbox {
+  max-width: 92vw;
+  max-height: 92vh;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: visible;
+}
+
+.lightbox::backdrop {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.lightbox img {
+  width: auto;
+  height: auto;
+  max-width: 92vw;
+  max-height: 92vh;
+  object-fit: contain;
 }
 
 /* --------------------------------------------------------------------------
@@ -617,9 +666,130 @@ p {
   }
 }
 
+/* Glitch on image hover. JS adds .glitch__layers with three copies of the
+   photo on first hover; they stay hidden until the figure is hovered. */
+.glitch {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;          /* opens the lightbox (main.js) */
+}
+
+.glitch:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 4px;
+}
+
+.glitch img {
+  position: relative;
+  z-index: 1;
+}
+
+.glitch__layers {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* The glitch layers show for 1s on hover, then hide until the next hover */
+.glitch:hover .glitch__layers {
+  visibility: visible;
+  animation: glitch-layers-off 1s step-end forwards;
+}
+
+@keyframes glitch-layers-off {
+  0%   { visibility: visible; }
+  100% { visibility: hidden; }
+}
+
+/* Fast shake on hover, for 1s (8 x 0.125s). Uses the separate `translate`
+   property so it doesn't override the random tilt set with `transform`. */
+.glitch:hover {
+  animation: glitch-shake 0.125s linear 8;
+}
+
+@keyframes glitch-shake {
+  0%   { translate: 0 0; }
+  20%  { translate: -3px 2px; }
+  40%  { translate: 3px -2px; }
+  60%  { translate: -2px -3px; }
+  80%  { translate: 2px 3px; }
+  100% { translate: 0 0; }
+}
+
+.glitch__layer {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: 100% 100%;
+}
+
+.glitch:hover .glitch__layer:nth-child(1) {
+  transform: translateX(-5%);
+  animation: glitch-anim-1 2s infinite linear alternate;
+}
+
+.glitch:hover .glitch__layer:nth-child(2) {
+  transform: translateX(3%) translateY(3%);
+  animation: glitch-anim-2 2.3s -0.8s infinite linear alternate;
+}
+
+.glitch:hover .glitch__layer:nth-child(3) {
+  transform: translateX(5%);
+  animation: glitch-anim-flash 1s infinite linear;
+}
+
+@keyframes glitch-anim-1 {
+  0%   { clip-path: polygon(0 0%, 100% 0%, 100% 5%, 0 5%); }
+  10%  { clip-path: polygon(0 15%, 100% 15%, 100% 15%, 0 15%); }
+  20%  { clip-path: polygon(0 10%, 100% 10%, 100% 20%, 0 20%); }
+  30%  { clip-path: polygon(0 1%, 100% 1%, 100% 2%, 0 2%); }
+  40%  { clip-path: polygon(0 35%, 100% 35%, 100% 35%, 0 35%); }
+  50%  { clip-path: polygon(0 45%, 100% 45%, 100% 46%, 0 46%); }
+  60%  { clip-path: polygon(0 50%, 100% 50%, 100% 70%, 0 70%); }
+  70%  { clip-path: polygon(0 70%, 100% 70%, 100% 70%, 0 70%); }
+  80%  { clip-path: polygon(0 80%, 100% 80%, 100% 80%, 0 80%); }
+  90%  { clip-path: polygon(0 50%, 100% 50%, 100% 55%, 0 55%); }
+  100% { clip-path: polygon(0 60%, 100% 60%, 100% 70%, 0 70%); }
+}
+
+@keyframes glitch-anim-2 {
+  0%   { clip-path: polygon(0 15%, 100% 15%, 100% 30%, 0 30%); }
+  15%  { clip-path: polygon(0 3%, 100% 3%, 100% 3%, 0 3%); }
+  25%  { clip-path: polygon(0 8%, 100% 8%, 100% 20%, 0 20%); }
+  30%  { clip-path: polygon(0 20%, 100% 20%, 100% 20%, 0 20%); }
+  45%  { clip-path: polygon(0 45%, 100% 45%, 100% 45%, 0 45%); }
+  50%  { clip-path: polygon(0 50%, 100% 50%, 100% 57%, 0 57%); }
+  65%  { clip-path: polygon(0 60%, 100% 60%, 100% 60%, 0 60%); }
+  75%  { clip-path: polygon(0 80%, 100% 80%, 100% 80%, 0 80%); }
+  80%  { clip-path: polygon(0 40%, 100% 40%, 100% 60%, 0 60%); }
+  95%  { clip-path: polygon(0 45%, 100% 45%, 100% 60%, 0 60%); }
+  100% { clip-path: polygon(0 11%, 100% 11%, 100% 15%, 0 15%); }
+}
+
+@keyframes glitch-anim-flash {
+  0%        { opacity: 0.2; }
+  30%, 100% { opacity: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .glitch__layers {
+    display: none;
+  }
+
+  .glitch:hover {
+    animation: none;
+  }
+
   html {
     scroll-behavior: auto;
+  }
+
+  .link-fill,
+  .link-fill.reveal {
+    transition: none;
   }
 
   .reveal {
