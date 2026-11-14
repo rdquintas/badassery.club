@@ -12,7 +12,7 @@ config/
 src/                Site source (templates + static files)
   index.html        The whole site (one page), a Nunjucks template
   css/style.css     All styles (self-hosted fonts, design tokens, layout, animations)
-  js/main.js        Fade-in-on-scroll animations + mobile menu
+  js/main.js        Fade-in-on-scroll animations + menu
   favicon.ico
   assets/
     fonts/          Self-hosted woff2 (Bebas Neue, Raleway, Poppins), latin subset

@@ -106,24 +106,25 @@
         </nav>
       </div>
 
-      <a class="btn site-header__cta reveal" href="{{ site.booking_url }}" target="_blank" rel="noopener">RESERVAR</a>
-
-      <button class="burger reveal" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open Menu">
+      <button class="burger reveal" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open Menu">
         <span class="burger__line"></span>
         <span class="burger__line"></span>
       </button>
     </div>
 
-    <!-- Mobile menu overlay -->
-    <div class="mobile-menu" id="mobile-menu" hidden>
-      <nav class="mobile-menu__nav" aria-label="Mobile">
-        <a class="mobile-menu__link link-fill" href="{{ site.google_maps_url }}" target="_blank" rel="noopener">{{ site.address.street }}</a>
+    <!-- Menu overlay (all screen sizes) -->
+    <div class="site-menu" id="site-menu" hidden>
+      <nav class="site-menu__nav" aria-label="Menu">
+        <a class="site-menu__link link-fill" href="{{ site.booking_url }}" target="_blank" rel="noopener">RESERVAR</a>
+        <!-- TODO: the #agenda section doesn't exist yet -->
+        <a class="site-menu__link link-fill" href="#agenda">AGENDA</a>
+        <a class="site-menu__link link-fill" href="#the-laboratory">THE LABORATORY</a>
+        <a class="site-menu__link link-fill" href="#the-acoustic-chamber">THE ACOUSTIC CHAMBER</a>
       </nav>
-      <div class="mobile-menu__footer">
-        <a class="mobile-menu__social" href="https://www.instagram.com/badassery____/" target="_blank" rel="noopener" aria-label="Instagram">
+      <div class="site-menu__footer">
+        <a class="site-menu__social" href="https://www.instagram.com/badassery____/" target="_blank" rel="noopener" aria-label="Instagram">
           <svg class="icon" aria-hidden="true"><use href="#icon-instagram"/></svg>
         </a>
-        <a class="btn btn--block" href="{{ site.booking_url }}" target="_blank" rel="noopener">RESERVAR</a>
       </div>
     </div>
   </header>
@@ -160,7 +161,7 @@
         </article>
 
         <!-- The Laboratory -->
-        <article class="feature feature--media-left">
+        <article class="feature feature--media-left" id="the-laboratory">
           <figure class="feature__media glitch reveal">
             <picture>
               <source type="image/avif" srcset="assets/img/laboratory-600.avif 600w, assets/img/laboratory-1200.avif 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
@@ -267,7 +268,7 @@
         </article>
 
         <!-- The Acoustic Chamber -->
-        <article class="feature feature--media-left">
+        <article class="feature feature--media-left" id="the-acoustic-chamber">
           <figure class="feature__media glitch reveal">
             <picture>
               <source type="image/avif" srcset="assets/img/acoustic-chamber-600.avif 600w, assets/img/acoustic-chamber-1200.avif 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">

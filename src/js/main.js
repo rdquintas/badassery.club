@@ -1,7 +1,7 @@
 /* ==========================================================================
    BADASSERY — main.js
    1. Fade-in animations (replicates Squarespace "Global animations": fade)
-   2. Mobile menu
+   2. Menu
    3. Image glitch hover
    4. Random photo tilt
    5. Photo lightbox
@@ -50,14 +50,13 @@
   }
 
   /* ------------------------------------------------------------------------
-     2. Mobile menu
+     2. Menu
      ------------------------------------------------------------------------ */
   function initMenu() {
     var burger = document.querySelector('.burger');
-    var menu = document.getElementById('mobile-menu');
+    var menu = document.getElementById('site-menu');
     if (!burger || !menu) return;
 
-    var desktop = window.matchMedia('(min-width: 768px)');
     var closeTimer;
 
     function open() {
@@ -100,11 +99,6 @@
         close();
         burger.focus();
       }
-    });
-
-    // Close if the viewport grows to desktop size
-    desktop.addEventListener('change', function (e) {
-      if (e.matches && isOpen()) close();
     });
   }
 
