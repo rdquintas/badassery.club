@@ -116,7 +116,6 @@
     <div class="site-menu" id="site-menu" hidden>
       <nav class="site-menu__nav" aria-label="Menu">
         <a class="site-menu__link link-fill" href="{{ site.booking_url }}" target="_blank" rel="noopener">RESERVAR</a>
-        <!-- TODO: the #agenda section doesn't exist yet -->
         <a class="site-menu__link link-fill" href="#agenda">AGENDA</a>
         <a class="site-menu__link link-fill" href="#the-laboratory">THE LABORATORY</a>
         <a class="site-menu__link link-fill" href="#the-acoustic-chamber">THE ACOUSTIC CHAMBER</a>
@@ -287,6 +286,51 @@
             <p class="reveal">Equipped with a brand new VOID ACOUSTIC sound system, calibrated to respond precisely to the unique features of the space, the Black Box ensures an unparalleled auditory experience.</p>
           </div>
         </article>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 4: Agenda (Shotgun-style events grid) ============ -->
+    <!-- Mimics the "Próximos eventos" grid of the Shotgun venue page; the data
+         comes from config/events.yaml. -->
+    <section class="section" id="agenda">
+      <div class="container">
+        <div class="shotgun">
+          <h2 class="shotgun__title reveal">Próximos eventos</h2>
+
+          <ul class="shotgun__grid">
+            {%- for e in events.items %}
+            <li class="event reveal">
+              <a class="event__link" href="{{ e.url }}" target="_blank" rel="noopener">
+                <picture class="event__cover">
+                  <source type="image/avif" srcset="assets/img/events/{{ e.image }}-600.avif 600w, assets/img/events/{{ e.image }}-1200.avif 1200w" sizes="(max-width: 639px) 88vw, (max-width: 1023px) 40vw, 360px">
+                  <source type="image/webp" srcset="assets/img/events/{{ e.image }}-600.webp 600w, assets/img/events/{{ e.image }}-1200.webp 1200w" sizes="(max-width: 639px) 88vw, (max-width: 1023px) 40vw, 360px">
+                  <img src="assets/img/events/{{ e.image }}-1200.jpg" srcset="assets/img/events/{{ e.image }}-600.jpg 600w, assets/img/events/{{ e.image }}-1200.jpg 1200w" sizes="(max-width: 639px) 88vw, (max-width: 1023px) 40vw, 360px" width="1200" height="675" alt="{{ e.title }}" loading="lazy" decoding="async">
+                </picture>
+                <span class="event__body">
+                  <span class="event__title">{{ e.title }}</span>
+                  <span class="event__venue">{{ events.venue_name }}</span>
+                  <span class="event__meta">
+                    <time class="event__when" datetime="{{ e.date }}T{{ e.time }}">{{ e.date | shortdate }}<span class="event__sep">|</span>{{ e.time }}</time>
+                    <span class="event__price">{% if e.sold_out %}Esgotado{% elif e.price == 0 %}Grátis{% else %}{{ e.price | eur }}{% endif %}</span>
+                  </span>
+                  {%- if e.tags %}
+                  <span class="event__tags">
+                    {%- for t in e.tags | batch(3) | first %}
+                    <span class="event__tag">{{ t }}</span>
+                    {%- endfor %}
+                    {%- if e.tags | length > 3 %}
+                    <span class="event__tag">+{{ e.tags | length - 3 }}</span>
+                    {%- endif %}
+                  </span>
+                  {%- endif %}
+                </span>
+              </a>
+            </li>
+            {%- endfor %}
+          </ul>
+
+          <p class="shotgun__more reveal"><a class="shotgun__button" href="{{ events.venue_url }}" target="_blank" rel="noopener">Ver mais</a></p>
+        </div>
       </div>
     </section>
   </main>

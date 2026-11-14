@@ -1,0 +1,64 @@
+# yaml-language-server: $schema=./events.schema.json
+# Upcoming events shown in the Shotgun-style "Próximos eventos" grid on the
+# home page (available in templates as `events.*`). Copied by hand from the
+# Shotgun venue page below; update this list when the events change.
+
+venue_url: https://shotgun.live/pt-pt/venues/badassery
+
+# Venue line shown under each event title, as on Shotgun.
+venue_name: Bar Badassery
+
+# Listed in this order. `image` is the basename of a 16:9 cover in
+# src/assets/img/events/ that has -600 and -1200 .avif/.webp/.jpg versions.
+items:
+  - title: Disfunktion (All Night Long) X Badassery
+    date: 2026-11-14
+    time: "22:00"
+    price: 12
+    url: https://shotgun.live/pt-pt/events/funktion-two-x-badassery
+    image: disfunktion
+
+  - title: Lⵣbna - "Life Outside The Piano" Record Release Tour
+    date: 2026-11-19
+    time: "19:00"
+    price: 0
+    url: https://shotgun.live/pt-pt/events/l-bna-life-outside-the-piano-record-release-tour
+    image: lzbna
+
+  - title: Fauve Refuge X Badassery
+    date: 2026-11-20
+    time: "22:00"
+    price: 5
+    tags: [Soul, House, Disco House]
+    url: https://shotgun.live/pt-pt/events/fauve-refuge-x-badassery-20-11-2026
+    image: fauve-refuge
+
+  - title: "Poderosas: Shugi X Chiara Mecozzi X Badassery"
+    date: 2026-11-21
+    time: "22:00"
+    price: 10
+    url: https://shotgun.live/pt-pt/events/poderosas-shugi-x-chiara-mecozzi-x-badassery
+    image: poderosas
+
+  - title: Indie Soul/R&B Showcase|Ay Wing X Oca Collective @ Badassery
+    date: 2026-11-26
+    time: "19:00"
+    price: 10
+    tags: [Hip Hop, Neo Soul, Trip Hop]
+    url: https://shotgun.live/pt-pt/events/ay-wing-x-oca-collective-badassery
+    image: ay-wing-oca-collective
+
+  - title: Mâhfoud All Night Long X Badassery
+    date: 2026-11-28
+    time: "22:00"
+    price: 12
+    url: https://shotgun.live/pt-pt/events/mahfoud-x-badassery-28-11-2026
+    image: mahfoud
+
+  - title: Collab Street // Vol. 1 X Badassery
+    date: 2026-12-03
+    time: "21:00"
+    price: 5
+    tags: [R&B, Rap, Hip Hop]
+    url: https://shotgun.live/pt-pt/events/collab-street-vol-1-x-badassery
+    image: collab-street-vol-1

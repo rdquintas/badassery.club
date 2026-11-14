@@ -40,6 +40,16 @@ export function build() {
     new nunjucks.runtime.SafeString(JSON.stringify(value).replace(/</g, '\\u003c'))
   );
 
+  // Shotgun-style short date: '2026-11-14' -> '14/11', '2026-12-03' -> '3/12'.
+  env.addFilter('shortdate', (value) => {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+    if (!m) throw new Error(`shortdate filter: invalid date "${value}"`);
+    return `${Number(m[3])}/${m[2]}`;
+  });
+  // Euro price in Portuguese format: 12 -> '12,00 €'.
+  const EUR = new Intl.NumberFormat('pt-PT', { style: 'currency', currency: 'EUR' });
+  env.addFilter('eur', (value) => EUR.format(value));
+
   // Render everything first, so a template error leaves the previous dist/ intact.
   const pages = fs
     .readdirSync(SRC, { recursive: true })

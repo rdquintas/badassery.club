@@ -540,6 +540,177 @@ p {
 }
 
 /* --------------------------------------------------------------------------
+   6b. Agenda: "Próximos eventos" grid in the style of the Shotgun venue page
+   (colours, sizes and breakpoints taken from shotgun.live).
+   -------------------------------------------------------------------------- */
+:root {
+  --shotgun-bg: #1c1c1c;
+  --shotgun-muted: #a3a5a8;
+  --shotgun-accent: #ff765f;
+  --shotgun-border: rgba(255, 255, 255, 0.1);
+}
+
+.shotgun {
+  padding: 32px 24px 40px;
+  border-radius: 4px;
+  background: var(--shotgun-bg);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.shotgun__title {
+  margin: 0 0 32px;
+  font-family: var(--font-body);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.33;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.shotgun__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 640px) {
+  .shotgun__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1024px) {
+  .shotgun__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 32px; }
+}
+
+.event__link {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-decoration: none;
+}
+
+.event__cover img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 4px;
+  transition: filter 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.event__link:hover .event__cover img,
+.event__link:focus-visible .event__cover img {
+  filter: contrast(150%);
+}
+
+.event__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+  margin-top: 8px;
+}
+
+.event__title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.event__venue {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--shotgun-muted);
+  font-size: 0.875rem;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.event__meta {
+  display: flex;
+  align-items: center;
+  column-gap: 12px;
+  line-height: 1.25;
+}
+
+.event__when {
+  display: flex;
+  gap: 4px;
+  color: var(--shotgun-accent);
+}
+
+.event__sep {
+  color: var(--shotgun-muted);
+}
+
+.event__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-height: 24px;
+  overflow: hidden;
+}
+
+.event__tag {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 2px 10px;
+  border: 1px solid var(--shotgun-border);
+  border-radius: 9999px;
+  color: var(--shotgun-muted);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.shotgun__more {
+  margin: 40px 0 0;
+  text-align: center;
+}
+
+.shotgun__button {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.shotgun__button:hover,
+.shotgun__button:focus-visible {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 767px) {
+  .shotgun {
+    padding: 24px 16px 32px;
+  }
+
+  .shotgun__title {
+    margin-bottom: 24px;
+    font-size: 1.25rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
    7. Footer
    -------------------------------------------------------------------------- */
 .site-footer {
