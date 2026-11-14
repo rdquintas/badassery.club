@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>BADASSERY - the most badass speakeasy in Lisbon</title>
+  <meta name="description" content="Hidden behind a knitting shop at {{ site.address.street }}, Badassery is a 300sqm creative sanctuary across three floors. From mixology in The Cocktail Bar to experimental vibes in The Laboratory and underground beats in The Mini Banger, we are the bridge between Amoreiras and Campo de Ourique. Experience the best secret nightlife in Lisbon.">
+  <meta name="keywords" content="Speakeasy Lisbon, Bar Secreto Lisboa, Live Music Rato, Eventos Privados Lisboa, Corporate Events Amoreiras, Private Party Venue Lisbon, Cocktail Bar Campo de Ourique, Jazz Soul Lisbon">
+  <link rel="canonical" href="https://badassery.club/">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:site_name" content="Badassery">
+  <meta property="og:title" content="BADASSERY - the most badass speakeasy in Lisbon">
+  <meta property="og:description" content="Hidden behind a knitting shop at {{ site.address.street }}, Badassery is a 300sqm creative sanctuary across three floors. Experience the best secret nightlife in Lisbon.">
+  <meta property="og:url" content="https://badassery.club">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://badassery.club/assets/img/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="BADASSERY - the most badass speakeasy in Lisbon">
+  <meta name="twitter:image" content="https://badassery.club/assets/img/og-image.jpg">
+
+  <!-- Icons -->
+  <link rel="icon" href="favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+
+  <!-- Fonts (self-hosted) -->
+  <link rel="preload" href="assets/fonts/bebas-neue-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/raleway-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/main.js" defer></script>
+
+  <!-- Structured data (copied from the original site) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": ["BarOrPub", "NightClub", "MusicVenue", "EventVenue"],
+    "name": "Badassery",
+    "alternateName": "Badassery Club Lisbon",
+    "description": "Exclusive 3-story Speakeasy in Lisbon (Rato/Amoreiras). Live Music, Bespoke Cocktails & Private B2B/B2C Events. 300sqm creative space: The Laboratory, The Cocktail Bar, The Mini Banger.",
+    "image": "https://badassery.club/assets/img/logo.png",
+    "url": "https://badassery.club",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": {{ site.address.street | json }},
+      "addressLocality": {{ site.address.city | json }},
+      "addressRegion": "Rato / Amoreiras / Campo de Ourique",
+      "postalCode": {{ site.address.postal_code | json }},
+      "addressCountry": "PT"
+    },
+    "geo": { "@type": "GeoCoordinates", "latitude": 38.723056, "longitude": -9.155833 },
+    "hasMap": {{ site.google_maps_url | json }},
+    "hasPart": [
+      { "@type": "Bar", "name": "The Cocktail Bar", "description": "Ground floor mixology bar" },
+      { "@type": "CreativeWorkSeries", "name": "The Laboratory", "description": "First floor creative event space" },
+      { "@type": "MusicVenue", "name": "The Mini Banger", "description": "Basement live music club" }
+    ],
+    "offers": {
+      "@type": "Offer",
+      "itemOffered": {
+        "@type": "Service",
+        "name": "Private Event Venue Rental Lisbon",
+        "description": "Bespoke events, B2B corporate parties, and private celebrations."
+      }
+    },
+    "sameAs": [
+      {{ site.instagram_url | json }},
+      "https://pt.pinterest.com/ebadassery/",
+      "https://shotgun.live/pt-pt/venues/badassery"
+    ]
+  }
+  </script>
+</head>
+
+<body>
+  {% include "_partials/sprite.html" %}
+
+  <a class="skip-link" href="#main">Skip to Content</a>
+
+  {% set header_no_logo = true %}
+  {% include "_partials/header.html" %}
+
+  <main id="main">
+
+    <!-- ============ HERO: background video ============ -->
+    <!-- Muted + playsinline is what lets browsers (iOS included) autoplay.
+         The <source> media queries pick the video when the page loads;
+         main.js swaps it on rotation and shows the fallback photo if
+         playback is blocked or fails. -->
+    <div class="hero" data-hero>
+      <video class="hero__video" autoplay muted loop playsinline preload="auto" disablepictureinpicture disableremoteplayback aria-hidden="true" tabindex="-1">
+        <source src="{{ site.hero.video_mobile }}" type="video/mp4" media="(orientation: portrait)">
+        <source src="{{ site.hero.video_desktop }}" type="video/mp4">
+      </video>
+      {%- set fb = site.hero.fallback_image %}
+      <picture class="hero__fallback">
+        <source type="image/avif" srcset="assets/img/{{ fb.name }}-600.avif 600w, assets/img/{{ fb.name }}-1200.avif 1200w" sizes="100vw">
+        <source type="image/webp" srcset="assets/img/{{ fb.name }}-600.webp 600w, assets/img/{{ fb.name }}-1200.webp 1200w" sizes="100vw">
+        <img src="assets/img/{{ fb.name }}-1200.jpg" srcset="assets/img/{{ fb.name }}-600.jpg 600w, assets/img/{{ fb.name }}-1200.jpg 1200w" sizes="100vw" width="{{ fb.width }}" height="{{ fb.height }}" alt="" loading="lazy" decoding="async">
+      </picture>
+    </div>
+
+    <!-- ============ SECTION 1: Intro ============ -->
+    <section class="section section--first">
+      <div class="container">
+        <h1 class="page-title reveal">THE MOST BADASS SPEAKEASY &amp; EVENT VENUE IN LISBON</h1>
+
+        <!-- Intro -->
+        <article class="feature feature--media-right">
+          <figure class="feature__media glitch reveal">
+            <picture>
+              <source type="image/avif" srcset="assets/img/hero-cocktail-600.avif 600w, assets/img/hero-cocktail-1200.avif 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
+              <source type="image/webp" srcset="assets/img/hero-cocktail-600.webp 600w, assets/img/hero-cocktail-1200.webp 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
+              <!-- TODO: typo no original ("COKTAIL") -->
+              <img src="assets/img/hero-cocktail-1200.jpg" srcset="assets/img/hero-cocktail-600.jpg 600w, assets/img/hero-cocktail-1200.jpg 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)" width="1200" height="1800" alt="COKTAIL ART" fetchpriority="high">
+            </picture>
+          </figure>
+
+          <div class="feature__body">
+            <h3 class="feature__title reveal">3 Floors of Creativity</h3>
+            <p class="reveal">Hidden behind a traditional knitting shop, Badassery is a 300 sqm versatile sanctuary. Whether you are seeking an underground cocktail experience or a premium venue for your corporate event, our three floors offer a unique bridge between <strong>Amoreiras</strong> and <strong>Campo de Ourique</strong>.</p>
+            <ul class="list">
+              <li class="reveal"><strong>The 1st Floor: The Laboratory</strong><br>A space for experimentation and creation, where innovation meets imagination.</li>
+              <li class="reveal"><strong>The Ground Floor: The Cocktail Bar</strong><br>Enjoy expertly crafted cocktails in a vibrant atmosphere, perfect for relaxing or socializing.</li>
+              <li class="reveal"><strong>The Basement: The Mini Banger &amp; Acoustic Chamber</strong><br>An intimate setting for live performances and events, ideal for those seeking a unique experience.</li>
+            </ul>
+            <!-- TODO: typo no original ("an unique") -->
+            <p class="reveal">Our artistic direction is detail-oriented in order to create an unique experience.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ Agenda (Shotgun-style events grid) ============ -->
+    <!-- Mimics the "Próximos eventos" grid of the Shotgun venue page; the data
+         comes from config/events.yaml. -->
+    <section class="section" id="agenda">
+      <div class="container">
+        <div class="shotgun">
+          <h2 class="shotgun__title reveal">Próximos eventos</h2>
+
+          <ul class="shotgun__grid">
+            {%- for e in events.items %}
+            <li class="event reveal">
+              <a class="event__link" href="{{ e.url }}" target="_blank" rel="noopener">
+                <picture class="event__cover">
+                  <source type="image/avif" srcset="assets/img/events/{{ e.image }}-600.avif 600w, assets/img/events/{{ e.image }}-1200.avif 1200w" sizes="(max-width: 639px) 88vw, (max-width: 1023px) 40vw, 360px">
+                  <source type="image/webp" srcset="assets/img/events/{{ e.image }}-600.webp 600w, assets/img/events/{{ e.image }}-1200.webp 1200w" sizes="(max-width: 639px) 88vw, (max-width: 1023px) 40vw, 360px">
+                  <img src="assets/img/events/{{ e.image }}-1200.jpg" srcset="assets/img/events/{{ e.image }}-600.jpg 600w, assets/img/events/{{ e.image }}-1200.jpg 1200w" sizes="(max-width: 639px) 88vw, (max-width: 1023px) 40vw, 360px" width="1200" height="675" alt="{{ e.title }}" loading="lazy" decoding="async">
+                </picture>
+                <span class="event__body">
+                  <span class="event__title">{{ e.title }}</span>
+                  <span class="event__venue">{{ events.venue_name }}</span>
+                  <span class="event__meta">
+                    <time class="event__when" datetime="{{ e.date }}T{{ e.time }}">{{ e.date | shortdate }}<span class="event__sep">|</span>{{ e.time }}</time>
+                    <span class="event__price">{% if e.sold_out %}Esgotado{% elif e.price == 0 %}Grátis{% else %}{{ e.price | eur }}{% endif %}</span>
+                  </span>
+                  {%- if e.tags %}
+                  <span class="event__tags">
+                    {%- for t in e.tags | batch(3) | first %}
+                    <span class="event__tag">{{ t }}</span>
+                    {%- endfor %}
+                    {%- if e.tags | length > 3 %}
+                    <span class="event__tag">+{{ e.tags | length - 3 }}</span>
+                    {%- endif %}
+                  </span>
+                  {%- endif %}
+                </span>
+              </a>
+            </li>
+            {%- endfor %}
+          </ul>
+
+          <p class="shotgun__more reveal"><a class="shotgun__button" href="{{ events.venue_url }}" target="_blank" rel="noopener">Ver mais</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 2: The Laboratory ============ -->
+    <section class="section">
+      <div class="container">
+
+        <!-- The Laboratory -->
+        <article class="feature feature--media-left" id="the-laboratory">
+          <figure class="feature__media glitch reveal">
+            <picture>
+              <source type="image/avif" srcset="assets/img/laboratory-600.avif 600w, assets/img/laboratory-1200.avif 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
+              <source type="image/webp" srcset="assets/img/laboratory-600.webp 600w, assets/img/laboratory-1200.webp 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
+              <img src="assets/img/laboratory-1200.jpg" srcset="assets/img/laboratory-600.jpg 600w, assets/img/laboratory-1200.jpg 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)" width="1200" height="2133" alt="LABORATORIO ART" loading="lazy" decoding="async">
+            </picture>
+          </figure>
+
+          <div class="feature__body">
+            <div class="feature__heading">
+              <h3 class="feature__title reveal">THE LABORATORY</h3>
+              <h4 class="feature__level reveal">1ST FLOOR</h4>
+            </div>
+            <p class="reveal">Our center for creativity and innovation</p>
+            <p class="reveal">At the heart of The Badassery, the Laboratory embodies our commitment to quality and sustainability.</p>
+            <p class="reveal">Circular economy and premium ingredients are at the core of our DNA.</p>
+            <p class="reveal">We ban industrial sodas and added sugars.</p>
+            <p class="reveal">Open bar service starting at €19 per person.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 3: Cocktail Bar + Basement ============ -->
+    <section class="section">
+      <div class="container">
+
+        <!-- The Cocktail Bar -->
+        <article class="feature feature--media-right">
+          <figure class="feature__media glitch reveal">
+            <picture>
+              <source type="image/avif" srcset="assets/img/cocktail-bar-600.avif 600w, assets/img/cocktail-bar-1200.avif 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
+              <source type="image/webp" srcset="assets/img/cocktail-bar-600.webp 600w, assets/img/cocktail-bar-1200.webp 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
+              <img src="assets/img/cocktail-bar-1200.jpg" srcset="assets/img/cocktail-bar-600.jpg 600w, assets/img/cocktail-bar-1200.jpg 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)" width="1200" height="1789" alt="BADASSERY BAR" loading="lazy" decoding="async">
+            </picture>
+          </figure>
+
+          <div class="feature__body">
+            <div class="feature__heading">
+              <!-- TODO: typo no original ("COKTAIL") -->
+              <h3 class="feature__title reveal">THE COKTAIL BAR</h3>
+              <h4 class="feature__level reveal">GROUND FLOOR</h4>
+            </div>
+            <p class="reveal">Our welcoming cocktail bar is located on the ground floor, featuring cozy and intimate decor. It includes a fully equipped bar and a small kitchen where we prepare our delicious Dim Sum.</p>
+            <p class="reveal"><strong>Capacity:</strong> Seated: 50 people | Standing: 70 people</p>
+            <p class="reveal">We also offer a premium quality sound system and customizable lighting system.</p>
+            <p class="reveal"><strong>B2B Offer:</strong> Ideal for <strong>After-work drinks</strong> or <strong>Networking cocktails</strong> near the Amoreiras business district.</p>
+          </div>
+        </article>
+
+        <!-- The Basement -->
+        <article class="feature feature--media-left">
+          <figure class="feature__media glitch reveal">
+            <picture>
+              <source type="image/avif" srcset="assets/img/basement-600.avif 600w, assets/img/basement-1200.avif 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
+              <source type="image/webp" srcset="assets/img/basement-600.webp 600w, assets/img/basement-1200.webp 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
+              <!-- TODO: typo no original ("coktail") -->
+              <img src="assets/img/basement-1200.jpg" srcset="assets/img/basement-600.jpg 600w, assets/img/basement-1200.jpg 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)" width="1200" height="1790" alt="badassery coktail" loading="lazy" decoding="async">
+            </picture>
+          </figure>
+
+          <div class="feature__body">
+            <div class="feature__heading feature__heading--stacked">
+              <h3 class="feature__title reveal">THE BASEMENT</h3>
+              <h4 class="feature__level reveal">The Underground Soul</h4>
+            </div>
+            <p class="reveal">Two interconnected rooms separated by a secret sliding wall.</p>
+            <ul class="list">
+              <li class="reveal"><strong>Room 1: The Mini Banger.</strong> Intimate with wall tapestries. Perfect for <strong>Birthdays</strong> or <strong>Private Dinners</strong>. (Cap: 25 seated | 50 standing).</li>
+              <!-- TODO: bullet vazio no original -->
+              <li class="reveal"></li>
+              <li class="reveal"><strong>Room 2: The Acoustic Chamber (Black Box).</strong> A sonic masterpiece equipped with a <strong>VOID ACOUSTIC</strong> system. Perfect for <strong>Live Performances, DJ Sets, Film Shoots, and Product Launches</strong>. (Cap: 70 seated | 100 standing).</li>
+            </ul>
+            <p class="reveal">Our center for creativity and innovation, The Badassery, features the Laboratory, reflecting our commitment to quality and sustainability. Circular economy and premium ingredients are fundamental to our approach. We do not offer industrial sodas or added sugars. Open bar service starts at €19 per person.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 4: Mini Banger + Acoustic Chamber ============ -->
+    <section class="section">
+      <div class="container">
+
+        <!-- The Mini Banger -->
+        <article class="feature feature--media-right">
+          <figure class="feature__media glitch reveal">
+            <picture>
+              <source type="image/avif" srcset="assets/img/mini-banger-600.avif 600w, assets/img/mini-banger-1200.avif 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
+              <source type="image/webp" srcset="assets/img/mini-banger-600.webp 600w, assets/img/mini-banger-1200.webp 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
+              <img src="assets/img/mini-banger-1200.jpg" srcset="assets/img/mini-banger-600.jpg 600w, assets/img/mini-banger-1200.jpg 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)" width="1200" height="2133" alt="BADASSERY - MINI BANGER" loading="lazy" decoding="async">
+            </picture>
+          </figure>
+
+          <div class="feature__body">
+            <div class="feature__heading">
+              <h3 class="feature__title reveal">THE MINI BANGER</h3>
+              <h4 class="feature__level reveal">BASEMENT ( ROOM 1)</h4>
+            </div>
+            <p class="reveal">Intimate and Versatile Room</p>
+            <p class="reveal">Adorned with vintage wall tapestries, this cozy room offers an elegant yet relaxed atmosphere. It is the premier choice for <strong>Private Dinners, Corporate Workshops, and Intimate DJ Sets</strong> in the Rato/Amoreiras area.</p>
+            <p class="reveal"><strong>Capacity:</strong> Seated: 25 people | Standing: 50 people</p>
+            <p class="reveal"><strong>Connection to the Club:</strong> The room links to the club through a sliding wall, offering flexibility for larger events or a more intimate setting.</p>
+          </div>
+        </article>
+
+        <!-- The Acoustic Chamber -->
+        <article class="feature feature--media-left" id="the-acoustic-chamber">
+          <figure class="feature__media glitch reveal">
+            <picture>
+              <source type="image/avif" srcset="assets/img/acoustic-chamber-600.avif 600w, assets/img/acoustic-chamber-1200.avif 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
+              <source type="image/webp" srcset="assets/img/acoustic-chamber-600.webp 600w, assets/img/acoustic-chamber-1200.webp 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)">
+              <img src="assets/img/acoustic-chamber-1200.jpg" srcset="assets/img/acoustic-chamber-600.jpg 600w, assets/img/acoustic-chamber-1200.jpg 1200w" sizes="(max-width: 767px) 88vw, min(38.9vw, 567px)" width="1200" height="1800" alt="artist badassery" loading="lazy" decoding="async">
+            </picture>
+          </figure>
+
+          <div class="feature__body">
+            <div class="feature__heading feature__heading--stacked">
+              <h3 class="feature__title reveal">THE ACOUSTIC CHAMBER</h3>
+              <h4 class="feature__level reveal">BASEMENT (ROOM 2)</h4>
+            </div>
+            <p class="reveal">Discover our "Black Box", an innovative space with exceptional acoustics. Equipped with a state-of-the-art <strong>VOID ACOUSTIC sound system</strong>, it is specifically designed for <strong>Live Performances, Listening Sessions, Film Shoots, and Brand Activations</strong>.</p>
+            <p class="reveal">Capacity: <strong>Seated:</strong> 70 people | <strong>Standing:</strong> 100 people</p>
+            <p class="reveal">Equipped with a brand new VOID ACOUSTIC sound system, calibrated to respond precisely to the unique features of the space, the Black Box ensures an unparalleled auditory experience.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  {% include "_partials/footer.html" %}
+
+  <!-- SEO text (hidden in the original too) -->
+  <div hidden>
+    <p>Melhor Bar Secreto em Lisboa, Musica ao vivo no Rato e Amoreiras. Eventos privados B2B e B2C.</p>
+    <p>Best Secret Bar in Lisbon, Live Music near Amoreiras and Campo de Ourique. Private B2B Corporate Events.</p>
+  </div>
+  <!-- Lightbox for the photos (filled and opened by main.js) -->
+  <dialog class="lightbox" id="lightbox" aria-label="Photo"></dialog>
+</body>
+</html>

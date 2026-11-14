@@ -394,6 +394,49 @@ p {
   }
 }
 
+/* Header without the logo (index2.html): lies over the hero video and the
+   burger moves up to the top corner (its position follows --header-logo). */
+.site-header--no-logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  --header-logo: 36px;
+}
+
+/* --------------------------------------------------------------------------
+   5b. Hero: full-screen background video
+   -------------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  height: 100vh;
+  height: 100svh;          /* mobile: the height with the browser bars shown */
+  overflow: hidden;
+  background: var(--black);
+}
+
+.hero__video,
+.hero__fallback img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Shown (and only then downloaded, it's lazy) when the video can't play */
+.hero__fallback {
+  display: none;
+}
+
+.hero--fallback .hero__video {
+  display: none;
+}
+
+.hero--fallback .hero__fallback {
+  display: block;
+}
+
 /* --------------------------------------------------------------------------
    6. Layout: sections, container, features (image + text rows)
    -------------------------------------------------------------------------- */

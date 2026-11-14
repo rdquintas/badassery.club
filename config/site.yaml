@@ -15,6 +15,18 @@ booking_url: https://bookings.zenchef.com/results?rid=372843&pid=instagram
 google_maps_url: https://maps.app.goo.gl/pNBbo2VUgdVePvAM9
 instagram_url: https://www.instagram.com/badassery____/
 
+# Full-screen background video at the top of the page (index2.html).
+# Paths are relative to src/. The fallback photo is shown when the video
+# can't play (e.g. autoplay blocked in iOS Low Power Mode); it's the base
+# name of a photo in src/assets/img/ that has the -600/-1200 AVIF/WebP/JPG set.
+hero:
+  video_desktop: assets/videos/16x9.mp4   # landscape screens
+  video_mobile: assets/videos/9x16.mp4    # portrait screens
+  fallback_image:
+    name: cocktail-bar
+    width: 1200
+    height: 1789
+
 # Each entry is rendered as one paragraph in the footer.
 hours:
   - days: Wednesday and Thursday

@@ -6,6 +6,7 @@
    4. Random photo tilt
    5. Photo lightbox
    6. Gallery (masonry)
+   7. Hero background video
    ========================================================================== */
 
 (function () {
@@ -423,7 +424,81 @@
     });
   }
 
+  /* ------------------------------------------------------------------------
+     7. Hero background video (index2.html)
+     The HTML already autoplays it (muted + playsinline). This makes sure the
+     right file plays (portrait screens get the 9:16 one, also after a
+     rotation, and in browsers that ignore <source media>), pauses it while
+     it's off screen, and swaps in the fallback photo when the browser
+     refuses to play it (e.g. iOS Low Power Mode) or the file fails.
+     With prefers-reduced-motion it stays still on its first frame.
+     ------------------------------------------------------------------------ */
+  function initHeroVideo() {
+    var hero = document.querySelector('[data-hero]');
+    var video = hero && hero.querySelector('video');
+    if (!video) return;
+
+    var sources = video.querySelectorAll('source');
+    var mobileSrc = sources[0].src;                  // has media="(orientation: portrait)"
+    var desktopSrc = sources[sources.length - 1].src;
+    var portrait = window.matchMedia('(orientation: portrait)');
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var onScreen = true;
+
+    function fallback() {
+      hero.classList.add('hero--fallback');
+      video.pause();
+    }
+
+    function play() {
+      if (reduceMotion || !onScreen || hero.classList.contains('hero--fallback')) return;
+      var p = video.play();
+      if (p && typeof p.catch === 'function') {
+        p.catch(function (err) {
+          // AbortError only means the source changed mid-play; ignore it.
+          if (err && err.name === 'NotAllowedError') fallback();
+        });
+      }
+    }
+
+    // Switch file if the one loaded doesn't match the screen orientation.
+    function sync() {
+      var wanted = portrait.matches ? mobileSrc : desktopSrc;
+      if (video.currentSrc && video.currentSrc !== wanted) {
+        video.src = wanted;
+        play();
+      }
+    }
+
+    // A failed <source> fires "error" on itself; a failed src on the video.
+    sources[sources.length - 1].addEventListener('error', fallback);
+    video.addEventListener('error', fallback);
+    video.addEventListener('loadstart', sync);
+
+    if (portrait.addEventListener) {
+      portrait.addEventListener('change', sync);
+    } else if (portrait.addListener) {
+      portrait.addListener(sync); // Safari < 14
+    }
+
+    if (reduceMotion) {
+      video.removeAttribute('autoplay');
+      video.pause();
+    }
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        onScreen = entries[entries.length - 1].isIntersecting;
+        if (onScreen) { play(); } else { video.pause(); }
+      }).observe(hero);
+    }
+
+    sync();
+    play();
+  }
+
   initReveal();
+  initHeroVideo();
   initMenu();
   initImageGlitch();
   initTilt();

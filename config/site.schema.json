@@ -47,6 +47,39 @@
       "type": "string",
       "format": "uri"
     },
+    "hero": {
+      "description": "Full-screen background video at the top of index2.html.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["video_desktop", "video_mobile", "fallback_image"],
+      "properties": {
+        "video_desktop": {
+          "description": "16:9 MP4 (H.264) for landscape screens, relative to src/, e.g. \"assets/videos/16x9.mp4\".",
+          "type": "string",
+          "pattern": "\\.mp4$"
+        },
+        "video_mobile": {
+          "description": "9:16 MP4 (H.264) for portrait screens, relative to src/, e.g. \"assets/videos/9x16.mp4\".",
+          "type": "string",
+          "pattern": "\\.mp4$"
+        },
+        "fallback_image": {
+          "description": "Photo shown when the video can't play.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "width", "height"],
+          "properties": {
+            "name": {
+              "description": "Base name in src/assets/img/ (needs -600/-1200 .avif/.webp/.jpg), e.g. \"cocktail-bar\".",
+              "type": "string",
+              "pattern": "^[a-z0-9-]+$"
+            },
+            "width": { "description": "Width of the -1200 JPG in px.", "type": "integer", "minimum": 1 },
+            "height": { "description": "Height of the -1200 JPG in px.", "type": "integer", "minimum": 1 }
+          }
+        }
+      }
+    },
     "hours": {
       "description": "Opening hours; each entry is one paragraph in the footer.",
       "type": "array",

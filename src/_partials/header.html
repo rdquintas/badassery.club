@@ -1,7 +1,10 @@
-{#- Site header + menu overlay, shared by every page -#}
+{#- Site header + menu overlay, shared by every page.
+    A page can `{% set header_no_logo = true %}` before including it to drop
+    the logo and lay the header over the content (keeps the burger). -#}
 <!-- ============ HEADER ============ -->
-<header class="site-header">
+<header class="site-header{% if header_no_logo %} site-header--no-logo{% endif %}">
   <div class="site-header__inner">
+    {%- if not header_no_logo %}
     <div class="site-header__center">
       <a class="site-header__logo glitch reveal" href="./">
         <picture>
@@ -10,6 +13,7 @@
         </picture>
       </a>
     </div>
+    {%- endif %}
 
     <button class="burger reveal" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open Menu">
       <span class="burger__line"></span>
