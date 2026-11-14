@@ -1,0 +1,38 @@
+{#- Site header + menu overlay, shared by every page -#}
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="site-header__inner">
+    <div class="site-header__center">
+      <a class="site-header__logo glitch reveal" href="/">
+        <picture>
+          <source type="image/webp" srcset="assets/img/logo.webp">
+          <img src="assets/img/logo.png" alt="Badassery" width="1191" height="213">
+        </picture>
+      </a>
+      <nav class="site-header__nav" aria-label="Main">
+        <a class="site-header__nav-link link-fill reveal" href="{{ site.google_maps_url }}" target="_blank" rel="noopener">{{ site.address.street }}</a>
+      </nav>
+    </div>
+
+    <button class="burger reveal" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open Menu">
+      <span class="burger__line"></span>
+      <span class="burger__line"></span>
+    </button>
+  </div>
+
+  <!-- Menu overlay (all screen sizes) -->
+  <div class="site-menu" id="site-menu" hidden>
+    <nav class="site-menu__nav" aria-label="Menu">
+      <a class="site-menu__link link-fill" href="{{ site.booking_url }}" target="_blank" rel="noopener">RESERVAR</a>
+      <a class="site-menu__link link-fill" href="/#agenda">AGENDA</a>
+      <a class="site-menu__link link-fill" href="/#the-laboratory">THE LABORATORY</a>
+      <a class="site-menu__link link-fill" href="/#the-acoustic-chamber">THE ACOUSTIC CHAMBER</a>
+      <a class="site-menu__link link-fill" href="/gallery.html">GALLERY</a>
+    </nav>
+    <div class="site-menu__footer">
+      <a class="site-menu__social" href="https://www.instagram.com/badassery____/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg class="icon" aria-hidden="true"><use href="#icon-instagram"/></svg>
+      </a>
+    </div>
+  </div>
+</header>

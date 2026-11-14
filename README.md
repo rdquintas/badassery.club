@@ -9,8 +9,12 @@ It's a single-page static site that replaces the original Squarespace 7.1 site. 
 ```
 config/
   site.yaml         Venue details: email, address, booking and Maps URLs, hours
+  gallery.yaml      Photos on the gallery page (masonry) and how many load per scroll
 src/                Site source (templates + static files)
-  index.html        The whole site (one page), a Nunjucks template
+  index.html        Home page, a Nunjucks template
+  gallery.html      Gallery page, a Nunjucks template
+  _partials/        Shared header, footer and SVG sprite, used via {% include %}
+                    (paths starting with "_" are never rendered or copied to dist/)
   css/style.css     All styles (self-hosted fonts, design tokens, layout, animations)
   js/main.js        Fade-in-on-scroll animations + menu
   favicon.ico

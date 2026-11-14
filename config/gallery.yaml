@@ -1,0 +1,63 @@
+# yaml-language-server: $schema=./gallery.schema.json
+# Photos on the gallery page (available in templates as `gallery.*`), shown
+# in this order in the masonry grid. `image` is the path of the photo inside
+# src/assets/img/ without the "-600/-1200.<ext>" suffix; each one needs the
+# AVIF + WebP + JPG files at 600w and 1200w. `width`/`height` are the size of
+# the 1200w file (only the ratio matters: the grid uses it for the layout).
+
+# How many photos are added each time the visitor scrolls to the bottom.
+batch: 12
+
+items:
+  - image: hero-cocktail
+    width: 1200
+    height: 1800
+    alt: Cocktail art at Badassery
+  - image: laboratory
+    width: 1200
+    height: 2133
+    alt: The Laboratory, 1st floor
+  - image: cocktail-bar
+    width: 1200
+    height: 1789
+    alt: The Cocktail Bar, ground floor
+  - image: events/disfunktion
+    width: 1200
+    height: 675
+    alt: Disfunktion (All Night Long) X Badassery
+  - image: basement
+    width: 1200
+    height: 1790
+    alt: The Basement
+  - image: mini-banger
+    width: 1200
+    height: 2133
+    alt: The Mini Banger
+  - image: events/lzbna
+    width: 1200
+    height: 675
+    alt: Lzbna - Life Outside The Piano
+  - image: acoustic-chamber
+    width: 1200
+    height: 1800
+    alt: Artist in The Acoustic Chamber
+  - image: events/fauve-refuge
+    width: 1200
+    height: 675
+    alt: Fauve Refuge X Badassery
+  - image: events/poderosas
+    width: 1200
+    height: 675
+    alt: "Poderosas: Shugi X Chiara Mecozzi X Badassery"
+  - image: events/ay-wing-oca-collective
+    width: 1200
+    height: 675
+    alt: Ay Wing X Oca Collective @ Badassery
+  - image: events/mahfoud
+    width: 1200
+    height: 675
+    alt: Mâhfoud All Night Long X Badassery
+  - image: events/collab-street-vol-1
+    width: 1200
+    height: 675
+    alt: Collab Street Vol. 1 X Badassery

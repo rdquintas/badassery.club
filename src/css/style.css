@@ -84,6 +84,7 @@
   --feature-gap: clamp(56px, 5.05vw, 101px);       /* between rows inside a section */
   --section-pad-top: clamp(40px, 3.3vw, 66px);
   --section-pad-bottom: clamp(40px, 4.15vw, 83px);
+  --gallery-gap: clamp(8px, 1vw, 16px);   /* space between gallery photos */
 
   /* Animation (Squarespace "Global animations": fade, 1.5s, ease) */
   --reveal-duration: 1.5s;
@@ -710,6 +711,40 @@ p {
   text-align: center;
 }
 
+/* Instagram icon and logo below the three columns, centred */
+.site-footer__social {
+  display: flex;
+  width: fit-content;
+  margin: 56px auto 0;
+  padding: 4px;
+  transition: opacity 0.1s linear;
+}
+
+.site-footer__social:hover {
+  opacity: 0.8;
+}
+
+.site-footer__social .icon {
+  width: 40px;
+  height: 40px;
+}
+
+/* Same height as the header logo */
+.site-footer__logo {
+  display: block;
+  width: fit-content;
+  margin: 24px auto 0;
+}
+
+.site-footer .site-footer__logo {
+  text-decoration: none;
+}
+
+.site-footer__logo img {
+  width: auto;
+  max-height: 66px;
+}
+
 .site-footer h4 {
   margin-bottom: 2rem;
   line-height: 1.95em;
@@ -760,6 +795,14 @@ p {
   .site-footer h4 {
     margin-bottom: 1rem;
   }
+
+  .site-footer__social {
+    margin-top: 40px;
+  }
+
+  .site-footer__logo img {
+    max-height: 34px;
+  }
 }
 
 /* Lightbox: native <dialog>. Esc closes it natively; main.js closes it on a
@@ -783,6 +826,85 @@ p {
   max-width: 92vw;
   max-height: 92vh;
   object-fit: contain;
+}
+
+/* Gallery page: masonry grid. main.js positions each item absolutely in the
+   shortest column (4 / 3 / 2 columns, see GALLERY_COLUMNS) and sets the grid
+   height. Items fade up with .is-visible when they scroll into view. */
+.gallery {
+  padding-left: var(--site-gutter);
+  padding-right: var(--site-gutter);
+}
+
+.gallery__grid {
+  position: relative;
+}
+
+.gallery__item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  padding: calc(var(--gallery-gap) / 2);
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.gallery__item.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.gallery__open {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.gallery__open:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 2px;
+}
+
+.gallery__open img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: opacity 0.2s linear;
+}
+
+.gallery__open:hover img {
+  opacity: 0.85;
+}
+
+.gallery__sentinel {
+  height: 1px;
+}
+
+/* Without JavaScript: plain CSS columns, everything visible */
+.gallery__grid--static {
+  columns: 2;
+  column-gap: 0;
+}
+
+.gallery__grid--static .gallery__item {
+  position: static;
+  width: auto;
+  break-inside: avoid;
+  opacity: 1;
+  transform: none;
+}
+
+@media (min-width: 800px) {
+  .gallery__grid--static { columns: 3; }
+}
+
+@media (min-width: 1100px) {
+  .gallery__grid--static { columns: 4; }
 }
 
 /* --------------------------------------------------------------------------
@@ -811,7 +933,7 @@ p {
 .glitch {
   position: relative;
   overflow: hidden;
-  cursor: pointer;          /* opens the lightbox (main.js) */
+  cursor: pointer;          /* photos open the lightbox, the logo is a link */
 }
 
 .glitch:focus-visible {
@@ -932,8 +1054,10 @@ p {
     transition: none;
   }
 
-  .reveal {
+  .reveal,
+  .gallery__item {
     opacity: 1;
+    transform: none;
     transition: none;
   }
 

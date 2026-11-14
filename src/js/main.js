@@ -5,6 +5,7 @@
    3. Image glitch hover
    4. Random photo tilt
    5. Photo lightbox
+   6. Gallery (masonry)
    ========================================================================== */
 
 (function () {
@@ -154,10 +155,13 @@
      Esc closes it natively; a click outside the photo closes it too.
      ------------------------------------------------------------------------ */
   var LIGHTBOX_SIZES = '92vw';
+  var openLightbox = null; // set by initLightbox, also used by the gallery
 
   function initLightbox() {
     var dialog = document.getElementById('lightbox');
     if (!dialog || typeof dialog.showModal !== 'function') return;
+
+    openLightbox = open;
 
     function open(figure) {
       var picture = figure.querySelector('picture');
@@ -187,7 +191,9 @@
       document.body.classList.remove('is-lightbox-open');
     });
 
-    var figures = document.querySelectorAll('.glitch');
+    // Only the photos open the lightbox; the header logo also uses .glitch
+    // for the hover effect but stays a normal link.
+    var figures = document.querySelectorAll('.feature__media.glitch');
     Array.prototype.forEach.call(figures, function (figure) {
       var img = figure.querySelector('img');
       figure.setAttribute('tabindex', '0');
@@ -204,9 +210,132 @@
     });
   }
 
+  /* ------------------------------------------------------------------------
+     6. Gallery (masonry)
+     The photos wait in a <template> (so nothing downloads early) and are
+     added in batches of data-batch whenever the end of the grid gets near.
+     Each one goes into the shortest column; its height comes from the
+     width/height ratio, so the layout does not wait for the images. Photos
+     fade up as they enter the viewport, staggered when several arrive at
+     once. A click opens the photo in the lightbox.
+     ------------------------------------------------------------------------ */
+  var GALLERY_COLUMNS = [[1100, 4], [800, 3], [0, 2]]; // [min viewport width, columns]
+  var GALLERY_STAGGER = 100;  // ms between photos that fade in together
+  var GALLERY_PRELOAD = 400;  // px below the viewport at which the next batch loads
+
+  function initGallery() {
+    var root = document.querySelector('[data-gallery]');
+    if (!root) return;
+    var grid = root.querySelector('[data-gallery-grid]');
+    var sentinel = root.querySelector('[data-gallery-sentinel]');
+    var tpl = root.querySelector('[data-gallery-items]');
+    if (!grid || !sentinel || !tpl || !tpl.content) return;
+
+    var pending = Array.prototype.slice.call(tpl.content.children);
+    var placed = [];
+    var batch = parseInt(root.getAttribute('data-batch'), 10) || 12;
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var hasObserver = 'IntersectionObserver' in window;
+    var lastWidth = 0;
+
+    function columnCount() {
+      var w = window.innerWidth;
+      for (var i = 0; i < GALLERY_COLUMNS.length; i++) {
+        if (w >= GALLERY_COLUMNS[i][0]) return GALLERY_COLUMNS[i][1];
+      }
+      return 1;
+    }
+
+    function layout() {
+      if (!placed.length) return;
+      var cols = columnCount();
+      var colWidth = grid.clientWidth / cols;
+      var gap = parseFloat(window.getComputedStyle(placed[0]).paddingTop) * 2 || 0;
+      var heights = [];
+      for (var c = 0; c < cols; c++) heights.push(0);
+
+      placed.forEach(function (item) {
+        var col = heights.indexOf(Math.min.apply(Math, heights));
+        var ratio = parseFloat(item.getAttribute('data-ratio')) || 1;
+        item.style.width = (100 / cols) + '%';
+        item.style.left = (col * 100 / cols) + '%';
+        item.style.top = heights[col] + 'px';
+        heights[col] += (colWidth - gap) * ratio + gap;
+      });
+
+      grid.style.height = Math.max.apply(Math, heights) + 'px';
+      lastWidth = grid.clientWidth;
+    }
+
+    var fadeObserver = (!reduceMotion && hasObserver) ? new IntersectionObserver(function (entries) {
+      var n = 0;
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.style.transitionDelay = (n++ * GALLERY_STAGGER) + 'ms';
+        entry.target.classList.add('is-visible');
+        fadeObserver.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -5% 0px', threshold: 0 }) : null;
+
+    function loadBatch() {
+      var next = pending.splice(0, batch);
+      next.forEach(function (item) {
+        grid.appendChild(item);
+        placed.push(item);
+      });
+      layout();
+      next.forEach(function (item) {
+        if (fadeObserver) {
+          fadeObserver.observe(item);
+        } else {
+          item.classList.add('is-visible');
+        }
+      });
+      if (!pending.length) {
+        if (loadObserver) loadObserver.disconnect();
+        sentinel.parentNode.removeChild(sentinel);
+      }
+    }
+
+    // Keep adding batches while the end of the grid is still near the
+    // viewport (the observer only fires again when that changes).
+    function fill() {
+      if (!pending.length) return;
+      if (sentinel.getBoundingClientRect().top < window.innerHeight + GALLERY_PRELOAD) {
+        loadBatch();
+        requestAnimationFrame(fill);
+      }
+    }
+
+    var loadObserver = hasObserver ? new IntersectionObserver(function (entries) {
+      if (entries[entries.length - 1].isIntersecting) fill();
+    }, { rootMargin: '0px 0px ' + GALLERY_PRELOAD + 'px 0px' }) : null;
+
+    if (loadObserver) {
+      loadBatch();
+      if (pending.length) loadObserver.observe(sentinel);
+    } else {
+      while (pending.length) loadBatch();
+    }
+
+    var resizeFrame;
+    window.addEventListener('resize', function () {
+      cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(function () {
+        if (grid.clientWidth !== lastWidth) layout();
+      });
+    });
+
+    grid.addEventListener('click', function (e) {
+      var button = e.target.closest('.gallery__open');
+      if (button && openLightbox) openLightbox(button);
+    });
+  }
+
   initReveal();
   initMenu();
   initImageGlitch();
   initTilt();
   initLightbox();
+  initGallery();
 })();

@@ -51,15 +51,18 @@ export function build() {
   env.addFilter('eur', (value) => EUR.format(value));
 
   // Render everything first, so a template error leaves the previous dist/ intact.
+  // Paths with a segment starting with "_" (e.g. src/_partials/) are partials:
+  // used through {% include %}, never rendered or copied on their own.
+  const isPartial = (rel) => rel.split(path.sep).some((seg) => seg.startsWith('_'));
   const pages = fs
     .readdirSync(SRC, { recursive: true })
-    .filter((rel) => rel.endsWith('.html'))
+    .filter((rel) => rel.endsWith('.html') && !isPartial(rel))
     .map((rel) => [rel, env.render(rel.split(path.sep).join('/'), data)]);
 
   fs.rmSync(DIST, { recursive: true, force: true });
   fs.cpSync(SRC, DIST, {
     recursive: true,
-    filter: (src) => !src.endsWith('.html'),
+    filter: (src) => !src.endsWith('.html') && !isPartial(path.relative(SRC, src)),
   });
   for (const [rel, html] of pages) {
     const out = path.join(DIST, rel);
