@@ -7,6 +7,7 @@
    - Everything else in src/ is copied to dist/ as-is.
    ========================================================================== */
 
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -45,6 +46,13 @@ export function build() {
     const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
     if (!m) throw new Error(`shortdate filter: invalid date "${value}"`);
     return `${Number(m[3])}/${m[2]}`;
+  });
+  // Cache busting: 'css/style.css' -> 'css/style.css?v=<hash of the file>'.
+  // GitHub Pages lets browsers cache files for 10 minutes, so without this a
+  // visitor can get a new page with the previous CSS/JS right after a deploy.
+  env.addFilter('versioned', (rel) => {
+    const hash = crypto.createHash('sha256').update(fs.readFileSync(path.join(SRC, rel))).digest('hex');
+    return `${rel}?v=${hash.slice(0, 10)}`;
   });
   // Euro price in Portuguese format: 12 -> '12,00 €'.
   const EUR = new Intl.NumberFormat('pt-PT', { style: 'currency', currency: 'EUR' });
