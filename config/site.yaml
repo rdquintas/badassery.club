@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./site.schema.json
 # Site-wide settings used by the build (available in templates as `site.*`).
 
 email: info@badassery.club
@@ -8,6 +9,7 @@ address:
   city: Lisbon
 
 booking_url: https://bookings.zenchef.com/results?rid=372843&pid=instagram
+google_maps_url: https://goo.gl/maps/7g6k1Z5v8x2Q9X3F9
 
 # Each entry is rendered as one paragraph in the footer.
 hours:
