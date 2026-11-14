@@ -269,19 +269,8 @@ p {
   padding: 29px var(--site-gutter) 23px;
 }
 
-.site-header__social {
-  justify-self: start;
-  display: inline-flex;
-  padding: 4px;
-  margin-left: -4px;
-  transition: opacity 0.1s linear;
-}
-
-.site-header__social:hover {
-  opacity: 0.8;
-}
-
 .site-header__center {
+  grid-column: 2;          /* the left column is empty */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -306,6 +295,7 @@ p {
 .burger {
   display: block;
   position: relative;
+  grid-column: 3;
   justify-self: end;
   width: 36px;
   height: 36px;
@@ -544,15 +534,13 @@ p {
    (colours, sizes and breakpoints taken from shotgun.live).
    -------------------------------------------------------------------------- */
 :root {
-  --shotgun-bg: #1c1c1c;
+  --shotgun-bg: var(--black);
   --shotgun-muted: #a3a5a8;
   --shotgun-accent: #ff765f;
   --shotgun-border: rgba(255, 255, 255, 0.1);
 }
 
 .shotgun {
-  padding: 32px 24px 40px;
-  border-radius: 4px;
   background: var(--shotgun-bg);
   font-size: 1rem;
   line-height: 1.5;
@@ -700,10 +688,6 @@ p {
 }
 
 @media (max-width: 767px) {
-  .shotgun {
-    padding: 24px 16px 32px;
-  }
-
   .shotgun__title {
     margin-bottom: 24px;
     font-size: 1.25rem;

@@ -2,6 +2,8 @@
    Dev server: build, serve dist/, rebuild + live-reload on changes.
 
    - Watches src/ and config/; any change triggers a rebuild.
+   - Watches build.js too and re-imports it, so new filters are picked up
+     without restarting the server.
    - Serves dist/ at http://localhost:3000 (override with PORT=xxxx).
    - Injects a tiny live-reload script into HTML responses (dist/ itself
      is left untouched, so it stays identical to a production build).
@@ -10,7 +12,12 @@
 import fs from 'node:fs';
 import http from 'node:http';
 import path from 'node:path';
-import { build, SRC, CONFIG, DIST } from './build.js';
+import { fileURLToPath } from 'node:url';
+import * as buildModule from './build.js';
+
+const { SRC, CONFIG, DIST } = buildModule;
+const BUILD_FILE = fileURLToPath(new URL('./build.js', import.meta.url));
+let build = buildModule.build;
 
 const PORT = Number(process.env.PORT) || 3000;
 
@@ -68,6 +75,23 @@ function scheduleRebuild(file) {
 for (const dir of [SRC, CONFIG]) {
   fs.watch(dir, { recursive: true }, (_event, file) => scheduleRebuild(file));
 }
+
+// ES modules are cached, so a changed build.js is loaded again under a
+// fresh URL (the query string) and its build() replaces the old one.
+let buildTimer;
+fs.watch(BUILD_FILE, () => {
+  clearTimeout(buildTimer);
+  buildTimer = setTimeout(async () => {
+    try {
+      const mod = await import(`./build.js?v=${Date.now()}`);
+      build = mod.build;
+    } catch (err) {
+      console.error('\x1b[31mCould not reload build.js:\x1b[0m', err.message);
+      return;
+    }
+    scheduleRebuild('build.js');
+  }, 100);
+});
 
 /* ---- HTTP server ------------------------------------------------------- */
 

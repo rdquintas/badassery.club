@@ -90,10 +90,6 @@
   <!-- ============ HEADER ============ -->
   <header class="site-header">
     <div class="site-header__inner">
-      <a class="site-header__social reveal" href="https://www.instagram.com/badassery____/" target="_blank" rel="noopener" aria-label="Instagram">
-        <svg class="icon" aria-hidden="true"><use href="#icon-instagram"/></svg>
-      </a>
-
       <div class="site-header__center">
         <a class="site-header__logo reveal" href="/">
           <picture>
@@ -130,7 +126,7 @@
 
   <main id="main">
 
-    <!-- ============ SECTION 1: Intro + The Laboratory ============ -->
+    <!-- ============ SECTION 1: Intro ============ -->
     <section class="section section--first">
       <div class="container">
         <h1 class="page-title reveal">THE MOST BADASS SPEAKEASY &amp; EVENT VENUE IN LISBON</h1>
@@ -158,6 +154,57 @@
             <p class="reveal">Our artistic direction is detail-oriented in order to create an unique experience.</p>
           </div>
         </article>
+      </div>
+    </section>
+
+    <!-- ============ Agenda (Shotgun-style events grid) ============ -->
+    <!-- Mimics the "Próximos eventos" grid of the Shotgun venue page; the data
+         comes from config/events.yaml. -->
+    <section class="section" id="agenda">
+      <div class="container">
+        <div class="shotgun">
+          <h2 class="shotgun__title reveal">Próximos eventos</h2>
+
+          <ul class="shotgun__grid">
+            {%- for e in events.items %}
+            <li class="event reveal">
+              <a class="event__link" href="{{ e.url }}" target="_blank" rel="noopener">
+                <picture class="event__cover">
+                  <source type="image/avif" srcset="assets/img/events/{{ e.image }}-600.avif 600w, assets/img/events/{{ e.image }}-1200.avif 1200w" sizes="(max-width: 639px) 88vw, (max-width: 1023px) 40vw, 360px">
+                  <source type="image/webp" srcset="assets/img/events/{{ e.image }}-600.webp 600w, assets/img/events/{{ e.image }}-1200.webp 1200w" sizes="(max-width: 639px) 88vw, (max-width: 1023px) 40vw, 360px">
+                  <img src="assets/img/events/{{ e.image }}-1200.jpg" srcset="assets/img/events/{{ e.image }}-600.jpg 600w, assets/img/events/{{ e.image }}-1200.jpg 1200w" sizes="(max-width: 639px) 88vw, (max-width: 1023px) 40vw, 360px" width="1200" height="675" alt="{{ e.title }}" loading="lazy" decoding="async">
+                </picture>
+                <span class="event__body">
+                  <span class="event__title">{{ e.title }}</span>
+                  <span class="event__venue">{{ events.venue_name }}</span>
+                  <span class="event__meta">
+                    <time class="event__when" datetime="{{ e.date }}T{{ e.time }}">{{ e.date | shortdate }}<span class="event__sep">|</span>{{ e.time }}</time>
+                    <span class="event__price">{% if e.sold_out %}Esgotado{% elif e.price == 0 %}Grátis{% else %}{{ e.price | eur }}{% endif %}</span>
+                  </span>
+                  {%- if e.tags %}
+                  <span class="event__tags">
+                    {%- for t in e.tags | batch(3) | first %}
+                    <span class="event__tag">{{ t }}</span>
+                    {%- endfor %}
+                    {%- if e.tags | length > 3 %}
+                    <span class="event__tag">+{{ e.tags | length - 3 }}</span>
+                    {%- endif %}
+                  </span>
+                  {%- endif %}
+                </span>
+              </a>
+            </li>
+            {%- endfor %}
+          </ul>
+
+          <p class="shotgun__more reveal"><a class="shotgun__button" href="{{ events.venue_url }}" target="_blank" rel="noopener">Ver mais</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 2: The Laboratory ============ -->
+    <section class="section">
+      <div class="container">
 
         <!-- The Laboratory -->
         <article class="feature feature--media-left" id="the-laboratory">
@@ -184,7 +231,7 @@
       </div>
     </section>
 
-    <!-- ============ SECTION 2: Cocktail Bar + Basement ============ -->
+    <!-- ============ SECTION 3: Cocktail Bar + Basement ============ -->
     <section class="section">
       <div class="container">
 
@@ -240,7 +287,7 @@
       </div>
     </section>
 
-    <!-- ============ SECTION 3: Mini Banger + Acoustic Chamber ============ -->
+    <!-- ============ SECTION 4: Mini Banger + Acoustic Chamber ============ -->
     <section class="section">
       <div class="container">
 
@@ -286,51 +333,6 @@
             <p class="reveal">Equipped with a brand new VOID ACOUSTIC sound system, calibrated to respond precisely to the unique features of the space, the Black Box ensures an unparalleled auditory experience.</p>
           </div>
         </article>
-      </div>
-    </section>
-
-    <!-- ============ SECTION 4: Agenda (Shotgun-style events grid) ============ -->
-    <!-- Mimics the "Próximos eventos" grid of the Shotgun venue page; the data
-         comes from config/events.yaml. -->
-    <section class="section" id="agenda">
-      <div class="container">
-        <div class="shotgun">
-          <h2 class="shotgun__title reveal">Próximos eventos</h2>
-
-          <ul class="shotgun__grid">
-            {%- for e in events.items %}
-            <li class="event reveal">
-              <a class="event__link" href="{{ e.url }}" target="_blank" rel="noopener">
-                <picture class="event__cover">
-                  <source type="image/avif" srcset="assets/img/events/{{ e.image }}-600.avif 600w, assets/img/events/{{ e.image }}-1200.avif 1200w" sizes="(max-width: 639px) 88vw, (max-width: 1023px) 40vw, 360px">
-                  <source type="image/webp" srcset="assets/img/events/{{ e.image }}-600.webp 600w, assets/img/events/{{ e.image }}-1200.webp 1200w" sizes="(max-width: 639px) 88vw, (max-width: 1023px) 40vw, 360px">
-                  <img src="assets/img/events/{{ e.image }}-1200.jpg" srcset="assets/img/events/{{ e.image }}-600.jpg 600w, assets/img/events/{{ e.image }}-1200.jpg 1200w" sizes="(max-width: 639px) 88vw, (max-width: 1023px) 40vw, 360px" width="1200" height="675" alt="{{ e.title }}" loading="lazy" decoding="async">
-                </picture>
-                <span class="event__body">
-                  <span class="event__title">{{ e.title }}</span>
-                  <span class="event__venue">{{ events.venue_name }}</span>
-                  <span class="event__meta">
-                    <time class="event__when" datetime="{{ e.date }}T{{ e.time }}">{{ e.date | shortdate }}<span class="event__sep">|</span>{{ e.time }}</time>
-                    <span class="event__price">{% if e.sold_out %}Esgotado{% elif e.price == 0 %}Grátis{% else %}{{ e.price | eur }}{% endif %}</span>
-                  </span>
-                  {%- if e.tags %}
-                  <span class="event__tags">
-                    {%- for t in e.tags | batch(3) | first %}
-                    <span class="event__tag">{{ t }}</span>
-                    {%- endfor %}
-                    {%- if e.tags | length > 3 %}
-                    <span class="event__tag">+{{ e.tags | length - 3 }}</span>
-                    {%- endif %}
-                  </span>
-                  {%- endif %}
-                </span>
-              </a>
-            </li>
-            {%- endfor %}
-          </ul>
-
-          <p class="shotgun__more reveal"><a class="shotgun__button" href="{{ events.venue_url }}" target="_blank" rel="noopener">Ver mais</a></p>
-        </div>
       </div>
     </section>
   </main>
