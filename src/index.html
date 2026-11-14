@@ -54,6 +54,7 @@
       "addressCountry": "PT"
     },
     "geo": { "@type": "GeoCoordinates", "latitude": 38.723056, "longitude": -9.155833 },
+    "hasMap": {{ site.google_maps_url | json }},
     "hasPart": [
       { "@type": "Bar", "name": "The Cocktail Bar", "description": "Ground floor mixology bar" },
       { "@type": "CreativeWorkSeries", "name": "The Laboratory", "description": "First floor creative event space" },
@@ -101,7 +102,7 @@
           </picture>
         </a>
         <nav class="site-header__nav" aria-label="Main">
-          <a class="site-header__nav-link reveal" href="/">{{ site.address.street }}</a>
+          <a class="site-header__nav-link reveal" href="{{ site.google_maps_url }}" target="_blank" rel="noopener">{{ site.address.street }}</a>
         </nav>
       </div>
 
@@ -116,7 +117,7 @@
     <!-- Mobile menu overlay -->
     <div class="mobile-menu" id="mobile-menu" hidden>
       <nav class="mobile-menu__nav" aria-label="Mobile">
-        <a class="mobile-menu__link" href="/">{{ site.address.street }}</a>
+        <a class="mobile-menu__link" href="{{ site.google_maps_url }}" target="_blank" rel="noopener">{{ site.address.street }}</a>
       </nav>
       <div class="mobile-menu__footer">
         <a class="mobile-menu__social" href="https://www.instagram.com/badassery____/" target="_blank" rel="noopener" aria-label="Instagram">
@@ -294,7 +295,7 @@
     <div class="site-footer__inner">
       <div class="site-footer__col">
         <h4 class="reveal">LOCATION</h4>
-        <p class="reveal">{{ site.address.street }}<br>{{ site.address.city | upper }}, {{ site.address.postal_code }}</p>
+        <p class="reveal"><a href="{{ site.google_maps_url }}" target="_blank" rel="noopener">{{ site.address.street }}<br>{{ site.address.city | upper }}, {{ site.address.postal_code }}</a></p>
       </div>
       <div class="site-footer__col">
         <h4 class="reveal">HOURS</h4>

@@ -4,7 +4,7 @@
   "description": "Site-wide settings used by the build (config/site.yaml).",
   "type": "object",
   "additionalProperties": false,
-  "required": ["email", "address", "booking_url", "hours"],
+  "required": ["email", "address", "booking_url", "google_maps_url", "hours"],
   "properties": {
     "email": {
       "description": "Contact email shown in the footer.",

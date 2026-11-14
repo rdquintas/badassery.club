@@ -12,7 +12,7 @@ A static, single-page rebuild of the venue's old Squarespace 7.1 site ("black" t
 - `dist/` is generated and gitignored. Never edit it; edit `src/` or `config/` and rebuild.
 - `src/**/*.html` files are Nunjucks templates with autoescape and `throwOnUndefined` on. Each `config/<name>.yaml` becomes the template variable `<name>`.
 - Each config file has a JSON Schema next to it (`config/<name>.schema.json`), linked from the first line of the YAML with `# yaml-language-server: $schema=./<name>.schema.json`. Without that link, the VS Code YAML extension applies the Ansible Playbook schema to `site.yaml` and flags every key as an error. When you add or rename a key, update the schema too. When you add a config file, give it a schema and that first line.
-- Venue details (email, address, booking URL, hours) belong in `config/site.yaml`, never hard-coded in templates. Inside the JSON-LD `<script>`, use the `| json` filter instead of plain `{{ }}`, because HTML escaping is wrong there.
+- Venue details (email, address, booking URL, Google Maps URL, hours) belong in `config/site.yaml`, never hard-coded in templates. Inside the JSON-LD `<script>`, use the `| json` filter instead of plain `{{ }}`, because HTML escaping is wrong there.
 - `npm run dev` ([dev.js](dev.js)) serves `dist/` at http://localhost:3000, rebuilds on changes and live-reloads. The reload script is added only to the HTML the dev server sends and is never written to `dist/`. It has no dependencies; keep it that way.
 - After a change, run `npm run build` and check that it succeeds.
 

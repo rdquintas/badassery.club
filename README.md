@@ -2,13 +2,13 @@
 
 Website for **Badassery**, a three-floor speakeasy and event venue at Rua do Sol ao Rato 71A, Lisbon.
 
-It's a single-page static site that replaces the original Squarespace 7.1 site. It uses plain HTML, CSS and JavaScript, with no framework. A small Node build fills in venue details (email, address, booking link, opening hours) from YAML config files and writes the finished site to `dist/`.
+It's a single-page static site that replaces the original Squarespace 7.1 site. It uses plain HTML, CSS and JavaScript, with no framework. A small Node build fills in venue details (email, address, booking link, Google Maps link, opening hours) from YAML config files and writes the finished site to `dist/`.
 
 ## Structure
 
 ```
 config/
-  site.yaml         Venue details: email, address, booking URL, opening hours
+  site.yaml         Venue details: email, address, booking and Maps URLs, hours
 src/                Site source (templates + static files)
   index.html        The whole site (one page), a Nunjucks template
   css/style.css     All styles (self-hosted fonts, design tokens, layout, animations)

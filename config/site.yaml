@@ -9,7 +9,7 @@ address:
   city: Lisbon
 
 booking_url: https://bookings.zenchef.com/results?rid=372843&pid=instagram
-google_maps_url: https://goo.gl/maps/7g6k1Z5v8x2Q9X3F9
+google_maps_url: https://maps.app.goo.gl/pNBbo2VUgdVePvAM9
 
 # Each entry is rendered as one paragraph in the footer.
 hours:
