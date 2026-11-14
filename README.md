@@ -40,6 +40,7 @@ The build:
 1. Loads every `config/<name>.yaml` file. Templates can then read its contents as `<name>`, so `config/site.yaml` becomes `site`.
 2. Renders every `.html` file in `src/` with [Nunjucks](https://mozilla.github.io/nunjucks/).
 3. Copies everything else in `src/` to `dist/` unchanged.
+4. Writes `sitemap.xml`, which lists every rendered page, and `robots.txt`, which allows all crawlers and points to the sitemap. Both use the `url` from `config/site.yaml`.
 
 `dist/` is deleted and recreated on every build, so never edit files there.
 

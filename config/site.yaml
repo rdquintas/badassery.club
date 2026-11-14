@@ -1,6 +1,9 @@
 # yaml-language-server: $schema=./site.schema.json
 # Site-wide settings used by the build (available in templates as `site.*`).
 
+# Public address of the site, without a trailing slash (sitemap.xml, robots.txt).
+url: https://badassery.club
+
 email: info@badassery.club
 
 address:

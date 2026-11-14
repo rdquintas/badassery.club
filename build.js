@@ -70,7 +70,30 @@ export function build() {
     fs.writeFileSync(out, html);
   }
 
+  writeSeoFiles(data.site.url, pages.map(([rel]) => rel));
+
   console.log(`Built ${pages.length} page(s) into dist/ using config: ${Object.keys(data).join(', ')}`);
+}
+
+// sitemap.xml lists every rendered page (index.html -> "/"), so new pages are
+// included automatically; robots.txt allows everything and points to it.
+function writeSeoFiles(siteUrl, pagePaths) {
+  const base = String(siteUrl).replace(/\/+$/, '');
+  const escapeXml = (s) =>
+    s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' })[c]);
+
+  const urls = pagePaths
+    .map((rel) => '/' + rel.split(path.sep).join('/').replace(/(^|\/)index\.html$/, '$1'))
+    .sort((a, b) => (a === '/' ? -1 : b === '/' ? 1 : a.localeCompare(b)));
+
+  const sitemap =
+    '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+    urls.map((u) => `  <url><loc>${escapeXml(base + u)}</loc></url>\n`).join('') +
+    '</urlset>\n';
+  fs.writeFileSync(path.join(DIST, 'sitemap.xml'), sitemap);
+
+  fs.writeFileSync(path.join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${base}/sitemap.xml\n`);
 }
 
 // Run when called directly (`node build.js`), not when imported by dev.js.

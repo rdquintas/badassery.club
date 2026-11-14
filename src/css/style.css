@@ -85,6 +85,7 @@
   --section-pad-top: clamp(40px, 3.3vw, 66px);
   --section-pad-bottom: clamp(40px, 4.15vw, 83px);
   --gallery-gap: clamp(8px, 1vw, 16px);   /* space between gallery photos */
+  --photo-radius: 20px;                   /* rounded corners of gallery and index photos (not events) */
 
   /* Animation (Squarespace "Global animations": fade, 1.5s, ease) */
   --reveal-duration: 1.5s;
@@ -259,15 +260,19 @@ p {
 .site-header {
   position: relative;
   z-index: 10;
+  --header-pad-top: 29px;  /* also places the fixed burger, see .burger */
+  --header-logo: 132px;    /* logo height */
 }
 
 .site-header__inner {
   position: relative;
   z-index: 10;            /* keeps the burger above the menu overlay */
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  /* Side columns keep room for the fixed burger; the logo may shrink on
+     narrow screens */
+  grid-template-columns: minmax(40px, 1fr) minmax(0, auto) minmax(40px, 1fr);
   align-items: center;
-  padding: 29px var(--site-gutter) 23px;
+  padding: var(--header-pad-top) var(--site-gutter) 23px;
 }
 
 .site-header__center {
@@ -275,35 +280,33 @@ p {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 23px;
+}
+
+.site-header__logo {
+  max-width: 100%;
 }
 
 .site-header__logo img {
   width: auto;
-  max-height: 66px;
+  max-width: 100%;
+  max-height: var(--header-logo);
 }
 
-.site-header__nav-link {
-  display: inline-block;
-  font-size: calc(1rem + (var(--text) - 1) * var(--type-unit));
-  line-height: 1.5em;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.35em;
-}
-
-/* Burger (two-line, as in Squarespace "doubleLineHamburger"), shown at all sizes */
+/* Burger (two-line, as in Squarespace "doubleLineHamburger"), shown at all
+   sizes. Fixed, so it stays on screen while scrolling: it starts level with
+   the middle of the logo, at the right gutter. The translucent black circle
+   is invisible on the black header and keeps the lines readable over photos. */
 .burger {
   display: block;
-  position: relative;
-  grid-column: 3;
-  justify-self: end;
+  position: fixed;
+  top: calc(var(--header-pad-top) + var(--header-logo) / 2 - 18px);
+  right: calc(var(--site-gutter) - 6px);
   width: 36px;
   height: 36px;
-  margin-right: -6px;
   padding: 0;
   border: 0;
-  background: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
   color: var(--white);
   cursor: pointer;
 }
@@ -369,26 +372,24 @@ p {
   gap: 24px;
 }
 
+/* inline-flex: a box the size of the icon, so the glitch layers line up */
+.site-menu__social {
+  display: inline-flex;
+}
+
 .site-menu__social .icon {
   width: 32px;
   height: 32px;
 }
 
 @media (max-width: 767px) {
+  .site-header {
+    --header-pad-top: 22px;
+    --header-logo: 68px;
+  }
+
   .site-header__inner {
-    padding: 22px var(--site-gutter);
-  }
-
-  .site-header__center {
-    gap: 0;
-  }
-
-  .site-header__logo img {
-    max-height: 34px;
-  }
-
-  .site-header__nav {
-    display: none;
+    padding-bottom: 22px;
   }
 }
 
@@ -437,6 +438,7 @@ p {
 
 .feature__media {
   grid-area: media;
+  border-radius: var(--photo-radius); /* .glitch's overflow: hidden clips to it */
   box-shadow: 3px 5px 8px rgba(0, 0, 0, 0.5);
   transform: rotate(var(--tilt, -3.5deg)); /* --tilt is randomised by main.js */
 }
@@ -729,7 +731,7 @@ p {
   height: 40px;
 }
 
-/* Same height as the header logo */
+/* Footer logo: 66px high (34px on mobile), half the header logo */
 .site-footer__logo {
   display: block;
   width: fit-content;
@@ -914,6 +916,8 @@ p {
   width: 100%;
   padding: 0;
   border: 0;
+  border-radius: var(--photo-radius);
+  overflow: hidden; /* clips the photo and the glitch layers to the corners */
   background: none;
   cursor: zoom-in;
 }
@@ -1038,6 +1042,14 @@ p {
   background-repeat: no-repeat;
   background-position: 0 0;
   background-size: 100% 100%;
+}
+
+/* Icon version: the layer holds a copy of the <svg>, centred like the
+   original (the links centre their icon). */
+.glitch__layer--svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .glitch:not(.glitch--play):hover .glitch__layer:nth-child(1),

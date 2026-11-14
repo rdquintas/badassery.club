@@ -130,8 +130,12 @@
       if (entering && figure.classList.contains('glitch--play')) figure.classList.add('is-glitching');
       if (figure.querySelector('.glitch__layers')) return;
 
+      // Photos: the layers show the loaded image as a background. Icons
+      // (no <img>, e.g. Instagram): each layer gets a copy of the <svg>.
       var img = figure.querySelector('img');
-      if (!img || !img.currentSrc) return; // not loaded yet; retry next hover
+      var svg = img ? null : figure.querySelector('svg');
+      if (img && !img.currentSrc) return; // not loaded yet; retry next hover
+      if (!img && !svg) return;
 
       var layers = document.createElement('div');
       layers.className = 'glitch__layers';
@@ -139,7 +143,12 @@
       for (var i = 0; i < 3; i++) {
         var layer = document.createElement('div');
         layer.className = 'glitch__layer';
-        layer.style.backgroundImage = 'url("' + img.currentSrc + '")';
+        if (img) {
+          layer.style.backgroundImage = 'url("' + img.currentSrc + '")';
+        } else {
+          layer.className += ' glitch__layer--svg';
+          layer.appendChild(svg.cloneNode(true));
+        }
         layers.appendChild(layer);
       }
       figure.appendChild(layers);
